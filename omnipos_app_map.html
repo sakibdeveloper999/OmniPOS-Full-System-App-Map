@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OmniPOS — Full System App Map</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f4f0; color: #1a1a18; min-height: 100vh; }
+  .header { padding: 1.5rem 2rem 0; }
+  .logo { font-size: 24px; font-weight: 600; letter-spacing: -0.5px; color: #1a1a18; }
+  .logoTitle { color: #185FA5; font-size: 14px;  }
+  .logoTitle a { color: #185FA5; text-decoration: none; }
+  .logo span { color: #185FA5; }
+  .demoLink { margin-top: 8px; }
+  .demoLink a { font-size: 13px; color: #185FA5; text-decoration: none; border: 0.5px solid #185FA5; padding: 6px 12px; border-radius: 4px; }
+  .subtitle { font-size: 13px; color: #73726c; margin-top: 3px; }
+  .tabs { display: flex; gap: 4px; padding: 1.25rem 2rem 0; border-bottom: 0.5px solid #d3d1c7; }
+  .tab { font-size: 13px; padding: 6px 14px 12px; cursor: pointer; color: #73726c; border-bottom: 2px solid transparent; transition: all .15s; white-space: nowrap; background: none; border-top: none; border-left: none; border-right: none; }
+  .tab:hover { color: #1a1a18; }
+  .tab.active { color: #1a1a18; border-bottom-color: #185FA5; font-weight: 500; }
+  .panel { display: none; padding: 1.5rem 2rem 2rem; }
+  .panel.active { display: block; }
+
+  /* Architecture */
+  .arch-layer { border: 0.5px solid #d3d1c7; border-radius: 12px; padding: 14px 18px; margin-bottom: 10px; background: #fff; }
+  .arch-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .8px; color: #888780; margin-bottom: 8px; }
+  .arch-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  .chip { font-size: 12px; padding: 4px 10px; border-radius: 20px; border: 0.5px solid; }
+  .chip-blue  { background: #E6F1FB; color: #0C447C; border-color: #B5D4F4; }
+  .chip-teal  { background: #E1F5EE; color: #085041; border-color: #9FE1CB; }
+  .chip-amber { background: #FAEEDA; color: #633806; border-color: #FAC775; }
+  .arch-arrow { text-align: center; font-size: 20px; color: #888780; margin: -2px 0; }
+  .arch-note  { margin-top: 14px; padding: 12px 14px; background: #f5f4f0; border-radius: 8px; font-size: 12px; color: #73726c; line-height: 1.7; }
+
+  /* Modules */
+  .modules-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+  .module-card { border: 0.5px solid #d3d1c7; border-radius: 12px; padding: 14px; cursor: pointer; transition: all .15s; background: #fff; }
+  .module-card:hover { border-color: #b4b2a9; background: #f5f4f0; }
+  .module-card.selected { border-color: #185FA5; background: #E6F1FB; }
+  .module-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; font-size: 16px; }
+  .module-name { font-size: 13px; font-weight: 600; color: #1a1a18; margin-bottom: 3px; }
+  .module-desc { font-size: 12px; color: #73726c; line-height: 1.5; }
+  .detail-panel { border: 0.5px solid #d3d1c7; border-radius: 12px; padding: 18px; margin-top: 12px; background: #fff; }
+  .detail-title { font-size: 15px; font-weight: 600; color: #1a1a18; margin-bottom: 12px; }
+  .feature-list { display: flex; flex-direction: column; gap: 6px; }
+  .feature-item { font-size: 13px; color: #73726c; display: flex; gap: 8px; line-height: 1.4; }
+  .feature-dot { width: 5px; height: 5px; border-radius: 50%; background: #185FA5; margin-top: 5px; flex-shrink: 0; }
+  .code-block { background: #f5f4f0; border: 0.5px solid #d3d1c7; border-radius: 8px; padding: 10px 14px; margin-top: 10px; font-family: 'Courier New', monospace; font-size: 12px; color: #5f5e5a; line-height: 1.7; white-space: pre; overflow-x: auto; }
+
+  /* Flow */
+  .flow-step { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+  .flow-num { width: 26px; height: 26px; border-radius: 50%; background: #185FA5; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; flex-shrink: 0; margin-top: 1px; }
+  .flow-content { flex: 1; }
+  .flow-name { font-size: 13px; font-weight: 500; color: #1a1a18; }
+  .flow-sub { font-size: 12px; color: #73726c; margin-top: 2px; line-height: 1.5; }
+  .flow-connector { width: 1px; height: 16px; background: #d3d1c7; margin: 0 0 0 12px; }
+  .api-badge { font-size: 11px; background: #E6F1FB; color: #185FA5; padding: 1px 7px; border-radius: 10px; font-weight: 600; margin-left: 6px; vertical-align: middle; }
+
+  /* Roles */
+  .roles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .role-card { border: 0.5px solid #d3d1c7; border-radius: 12px; padding: 14px; background: #fff; }
+  .role-name { font-size: 14px; font-weight: 600; color: #1a1a18; margin-bottom: 10px; }
+  .perm { font-size: 12px; padding: 3px 8px; border-radius: 4px; margin-bottom: 5px; }
+  .perm-yes { background: #EAF3DE; color: #27500A; }
+  .perm-no  { background: #f5f4f0; color: #888780; text-decoration: line-through; }
+  .security-note { margin-top: 14px; padding: 12px 14px; background: #f5f4f0; border-radius: 8px; font-size: 12px; color: #73726c; line-height: 1.7; }
+
+  /* Deploy */
+  .deploy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .deploy-card { border: 0.5px solid #d3d1c7; border-radius: 12px; padding: 14px; background: #fff; }
+  .deploy-head { font-size: 11px; font-weight: 600; color: #888780; text-transform: uppercase; letter-spacing: .7px; margin-bottom: 8px; }
+  .deploy-item { font-size: 13px; color: #5f5e5a; padding: 5px 0; border-bottom: 0.5px solid #f1efe8; }
+  .deploy-item:last-child { border: none; }
+
+  /* Advanced */
+  .adv-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(175px, 1fr)); gap: 10px; }
+  .adv-card { border: 0.5px solid #d3d1c7; border-radius: 12px; padding: 14px; background: #fff; }
+  .adv-icon { font-size: 22px; margin-bottom: 8px; }
+  .adv-name { font-size: 13px; font-weight: 600; color: #1a1a18; margin-bottom: 4px; }
+  .adv-desc { font-size: 12px; color: #73726c; line-height: 1.5; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">Omni<span>POS</span></div>
+  <div class="logoTitle">Developed<span> by <a href="https://mdsakib.info/" target="_blank">MD. SAKIB</a></span></div>
+  <div class="subtitle">Enterprise Grocery POS — Full System App Map</div>
+  <div class="demoLink" ><a href="https://perm-fig-70398836.figma.site/" target="_blank">View Demo</a></div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="showTab('arch')">Architecture</button>
+  <button class="tab" onclick="showTab('modules')">Modules</button>
+  <button class="tab" onclick="showTab('flow')">API Flow</button>
+  <button class="tab" onclick="showTab('roles')">Roles</button>
+  <button class="tab" onclick="showTab('deploy')">Deploy</button>
+  <button class="tab" onclick="showTab('advanced')">Pro Features</button>
+</div>
+
+<!-- ARCHITECTURE -->
+<div class="panel active" id="tab-arch">
+  <div class="arch-layer">
+    <div class="arch-label">Frontend layer</div>
+    <div class="arch-chips">
+      <span class="chip chip-blue">React + Electron (Desktop)</span>
+      <span class="chip chip-blue">React Native (Mobile)</span>
+      <span class="chip chip-blue">Web QR Receipt Viewer</span>
+    </div>
+  </div>
+  <div class="arch-arrow">↕</div>
+  <div class="arch-layer">
+    <div class="arch-label">Backend layer</div>
+    <div class="arch-chips">
+      <span class="chip chip-teal">Node.js + Express</span>
+      <span class="chip chip-teal">REST API</span>
+      <span class="chip chip-teal">JWT Auth</span>
+      <span class="chip chip-teal">Socket.io (Live Sync)</span>
+      <span class="chip chip-teal">Business Logic</span>
+    </div>
+  </div>
+  <div class="arch-arrow">↕</div>
+  <div class="arch-layer">
+    <div class="arch-label">Data layer</div>
+    <div class="arch-chips">
+      <span class="chip chip-amber">MongoDB — Products</span>
+      <span class="chip chip-amber">MongoDB — Orders</span>
+      <span class="chip chip-amber">MongoDB — Users</span>
+      <span class="chip chip-amber">MongoDB — Logs</span>
+      <span class="chip chip-amber">Local SQLite (Offline)</span>
+    </div>
+  </div>
+  <div class="arch-note">
+    <strong style="color:#1a1a18;">Offline-first strategy:</strong> Desktop uses SQLite / IndexedDB when offline. Mobile uses AsyncStorage. Both sync automatically when connection restores. WebSocket (Socket.io) powers live dashboard updates and multi-device sync.
+  </div>
+</div>
+
+<!-- MODULES -->
+<div class="panel" id="tab-modules">
+  <div class="modules-grid" id="modules-grid"></div>
+  <div class="detail-panel" id="module-detail" style="display:none;"></div>
+</div>
+
+<!-- API FLOW -->
+<div class="panel" id="tab-flow">
+  <div id="flow-steps"></div>
+</div>
+
+<!-- ROLES -->
+<div class="panel" id="tab-roles">
+  <div class="roles-grid">
+    <div class="role-card">
+      <div class="role-name">Admin</div>
+      <div class="perm perm-yes">Full system access</div>
+      <div class="perm perm-yes">User management</div>
+      <div class="perm perm-yes">Reports + exports</div>
+      <div class="perm perm-yes">Inventory control</div>
+      <div class="perm perm-yes">POS operations</div>
+      <div class="perm perm-yes">Settings + config</div>
+    </div>
+    <div class="role-card">
+      <div class="role-name">Manager</div>
+      <div class="perm perm-no">User management</div>
+      <div class="perm perm-yes">Reports + exports</div>
+      <div class="perm perm-yes">Inventory control</div>
+      <div class="perm perm-yes">POS operations</div>
+      <div class="perm perm-no">Settings + config</div>
+      <div class="perm perm-yes">Stock adjustments</div>
+    </div>
+    <div class="role-card">
+      <div class="role-name">Cashier</div>
+      <div class="perm perm-no">User management</div>
+      <div class="perm perm-no">Reports + exports</div>
+      <div class="perm perm-no">Inventory control</div>
+      <div class="perm perm-yes">POS operations</div>
+      <div class="perm perm-no">Settings + config</div>
+      <div class="perm perm-no">Stock adjustments</div>
+    </div>
+  </div>
+  <div class="security-note">
+    <strong style="color:#1a1a18;">Security stack:</strong> JWT authentication · Role-based middleware on every route · Rate limiting (express-rate-limit) · Input validation (Joi) · Indexed DB queries for performance.
+  </div>
+</div>
+
+<!-- DEPLOY -->
+<div class="panel" id="tab-deploy">
+  <div class="deploy-grid">
+    <div class="deploy-card">
+      <div class="deploy-head">Backend</div>
+      <div class="deploy-item">VPS / Render / Railway</div>
+      <div class="deploy-item">Node.js + Express server</div>
+      <div class="deploy-item">PM2 process manager</div>
+    </div>
+    <div class="deploy-card">
+      <div class="deploy-head">Database</div>
+      <div class="deploy-item">MongoDB Atlas (cloud)</div>
+      <div class="deploy-item">Indexed collections</div>
+      <div class="deploy-item">Pagination + lazy load</div>
+    </div>
+    <div class="deploy-card">
+      <div class="deploy-head">Desktop app</div>
+      <div class="deploy-item">Electron build → .exe</div>
+      <div class="deploy-item">SQLite for offline ops</div>
+      <div class="deploy-item">Auto-sync on reconnect</div>
+    </div>
+    <div class="deploy-card">
+      <div class="deploy-head">Mobile app</div>
+      <div class="deploy-item">Expo → APK build</div>
+      <div class="deploy-item">AsyncStorage cache</div>
+      <div class="deploy-item">React Native</div>
+    </div>
+  </div>
+</div>
+
+<!-- ADVANCED -->
+<div class="panel" id="tab-advanced">
+  <div class="adv-grid" id="adv-grid"></div>
+</div>
+
+<script>
+const modules = [
+  {
+    icon: '🛒', color: '#E6F1FB', name: 'POS Engine',
+    desc: 'Core scan & cart system',
+    features: ['Ultra-fast barcode scan with no UI delay','Keyboard fallback input','Manual product search','Cart memory — hold orders','Multi-cart support (optional)','Auto-popup for unknown barcodes'],
+    code: '[Scanner Input]\n      ↓\n[Find by Barcode]\n      ↓\n[Found → Add to Cart]\n[Not Found → Create Popup]\n      ↓\n[Update qty if exists]\n      ↓\n[Recalculate Total]'
+  },
+  {
+    icon: '🧾', color: '#E1F5EE', name: 'Billing Engine',
+    desc: 'Totals, tax & discounts',
+    features: ['Custom discount per item or total','Percentage or flat discounts','Configurable tax rate','Rounding system','Split payments (cash + mobile)','Real-time total recalculation'],
+    code: 'Subtotal = Σ (price × qty)\nDiscount = manual / percentage\nTax      = configurable rate\nTotal    = Subtotal - Discount + Tax'
+  },
+  {
+    icon: '🔲', color: '#FAEEDA', name: 'QR Receipt',
+    desc: 'Secure digital receipts',
+    features: ['QR encodes encrypted token, not raw orderId','Expiry token for anti-fraud','Hash verification on scan','Shows: order, products, total, shop info','Status badge: valid / tampered','Shareable receipt URL'],
+    code: 'QR = Base64(orderId + secret + timestamp)\n\nOR: https://domain.com/r/{encryptedToken}'
+  },
+  {
+    icon: '📦', color: '#EAF3DE', name: 'Inventory Engine',
+    desc: 'Real-time stock control',
+    features: ['Stock auto-decrements on sale','Stock increments on restock or return','Real-time sync across devices','Batch stock update support','Audit log: who, when, why changed','Low-stock alerts (configurable)'],
+    code: 'On Sale    → stock -= qty\nOn Restock → stock += qty\nOn Return  → stock += qty'
+  },
+  {
+    icon: '📊', color: '#FBEAF0', name: 'Reporting Engine',
+    desc: 'Analytics & exports',
+    features: ['Daily sales: total, orders, profit','Top products by quantity sold','Profit = selling price − cost price','Date-range and product filters','Export to PDF and Excel','Sales trend graph (Chart.js)'],
+    code: '// Daily aggregation\n{ totalSales, totalOrders, totalProfit }\n\n// Top products\ngroup by productId → sort by qty sold'
+  },
+  {
+    icon: '🖨️', color: '#E6F1FB', name: 'Print Engine',
+    desc: 'Thermal receipt printing',
+    features: ['Auto-print after checkout','Silent printing (no browser dialog)','Custom store branding / logo','QR code embedded in receipt','Itemised product list with qty + price','Configurable receipt width'],
+    code: 'Store Name\n─────────────────────\nProduct  Qty   Price\nRice     2     100\nOil      1     120\n─────────────────────\nTotal: 220\n[QR CODE]\nThank You!'
+  },
+  {
+    icon: '👥', color: '#EEEDFE', name: 'User & Roles',
+    desc: 'Auth & permissions',
+    features: ['JWT-based authentication','3 roles: Admin, Manager, Cashier','Role middleware on every API route','Rate limiting (express-rate-limit)','Input validation with Joi','Activity logs per user'],
+    code: 'Admin   → full access\nManager → reports + inventory\nCashier → POS only'
+  },
+  {
+    icon: '🔄', color: '#E1F5EE', name: 'Sync Engine',
+    desc: 'Offline & live sync',
+    features: ['Offline-first: store locally, sync later','Desktop: SQLite / IndexedDB','Mobile: AsyncStorage cache','Socket.io for live dashboard updates','Multi-device stock sync','Conflict resolution on reconnect'],
+    code: 'if (offline):\n  storeLocally()\nif (online):\n  syncWithServer()'
+  }
+];
+
+const flowSteps = [
+  { n:1, name:'Scan product',        sub:'GET /products/barcode/:code → returns product data', api: true },
+  { n:2, name:'Add to cart',         sub:'Frontend only — no API call, instant UI update',      api: false },
+  { n:3, name:'Checkout',            sub:'POST /orders — send full cart payload to backend',     api: true },
+  { n:4, name:'Save order',          sub:'Backend writes order to MongoDB, assigns orderId',     api: false },
+  { n:5, name:'Update stock',        sub:'stock -= qty for each line item, logs the change',    api: false },
+  { n:6, name:'Generate QR',         sub:'Base64 token = orderId + secret + timestamp',         api: false },
+  { n:7, name:'Response to desktop', sub:'Returns { orderId, qrToken } to the frontend',        api: false },
+  { n:8, name:'Print receipt',       sub:'Electron triggers silent thermal print with QR embedded', api: false },
+];
+
+const advanced = [
+  { icon:'🧠', name:'AI demand prediction',   desc:'"You will run out of rice in 3 days" — based on sales velocity' },
+  { icon:'📦', name:'Auto restock suggestion',desc:'Recommends reorder qty and timing from sales history' },
+  { icon:'💬', name:'WhatsApp integration',   desc:'Sends digital receipt automatically after checkout' },
+  { icon:'🎯', name:'Loyalty system',         desc:'Customer points accumulation, reward tier tracking' },
+  { icon:'🧾', name:'GST / VAT engine',       desc:'Configurable BD tax rules, itemised tax on receipts' },
+  { icon:'📡', name:'WebSocket live sync',    desc:'Socket.io — admin dashboard updates in real time' },
+];
+
+function renderModules() {
+  document.getElementById('modules-grid').innerHTML = modules.map((m, i) => `
+    <div class="module-card" id="mc-${i}" onclick="selectModule(${i})">
+      <div class="module-icon" style="background:${m.color}">${m.icon}</div>
+      <div class="module-name">${m.name}</div>
+      <div class="module-desc">${m.desc}</div>
+    </div>
+  `).join('');
+}
+
+function selectModule(i) {
+  document.querySelectorAll('.module-card').forEach(c => c.classList.remove('selected'));
+  document.getElementById('mc-' + i).classList.add('selected');
+  const m  = modules[i];
+  const dp = document.getElementById('module-detail');
+  dp.style.display = 'block';
+  dp.innerHTML = `
+    <div class="detail-title">${m.icon} ${m.name}</div>
+    <div class="feature-list">
+      ${m.features.map(f => `<div class="feature-item"><div class="feature-dot"></div><span>${f}</span></div>`).join('')}
+    </div>
+    <div class="code-block">${m.code}</div>
+  `;
+}
+
+function renderFlow() {
+  document.getElementById('flow-steps').innerHTML = flowSteps.map((s, i) => `
+    <div class="flow-step">
+      <div class="flow-num">${s.n}</div>
+      <div class="flow-content">
+        <div class="flow-name">${s.name}${s.api ? '<span class="api-badge">API</span>' : ''}</div>
+        <div class="flow-sub">${s.sub}</div>
+      </div>
+    </div>
+    ${i < flowSteps.length - 1 ? '<div class="flow-connector"></div>' : ''}
+  `).join('');
+}
+
+function renderAdvanced() {
+  document.getElementById('adv-grid').innerHTML = advanced.map(a => `
+    <div class="adv-card">
+      <div class="adv-icon">${a.icon}</div>
+      <div class="adv-name">${a.name}</div>
+      <div class="adv-desc">${a.desc}</div>
+    </div>
+  `).join('');
+}
+
+function showTab(id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelector(`[onclick="showTab('${id}')"]`).classList.add('active');
+  document.getElementById('tab-' + id).classList.add('active');
+}
+
+renderModules();
+renderFlow();
+renderAdvanced();
+</script>
+</body>
+</html>
