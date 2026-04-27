@@ -54,7 +54,10 @@
         margin-bottom: 15px;
         line-height: 1.5;
     }
-
+    a {
+        color: #3b82f6;
+        text-decoration: none;
+    }
     input {
         width: 100%;
         padding: 12px;
@@ -119,6 +122,12 @@
     <!-- Login -->
     <div id="loginBox">
         <h2>🔐 Secure Access</h2>
+        <p>
+            Please enter the passcode to access the OmniPOS system architecture and design documents.
+        </p>
+        <p>
+            Ask the system administrator <a href="https://mdsakib.info">Md. Sakib</a> for the passcode if you don't have it. 
+        </p>
         <input type="password" id="passcode" placeholder="Enter passcode">
         <button class="primary-btn" onclick="checkPasscode()">Unlock</button>
         <div class="error" id="errorMsg"></div>
@@ -130,7 +139,12 @@
         <p>
             Access full system architecture, modules, APIs, and design versions of the OmniPOS platform.
         </p>
-
+        <p>
+            Click the buttons below to view different versions of the OmniPOS system design documents.
+        </p>
+        <p>
+            For any questions or further information, contact the system administrator <a href="https://mdsakib.info">Md. Sakib</a>.
+        </p>
         <div class="links">
             <button onclick="openFile('omnipos_app_map_v1.html')">Version 1</button>
             <button onclick="openFile('omnipos_app_map_v2.html')">Version 2</button>
