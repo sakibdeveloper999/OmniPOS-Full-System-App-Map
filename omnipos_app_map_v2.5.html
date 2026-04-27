@@ -1,0 +1,1675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OmniPOS — Full System Map v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #0c0c0b;
+  --bg2:      #141412;
+  --bg3:      #1c1c19;
+  --border:   #2a2a26;
+  --border2:  #383834;
+  --text:     #e8e6de;
+  --muted:    #7a7870;
+  --dim:      #4a4844;
+  --gold:     #d4a843;
+  --gold2:    #f0c060;
+  --blue:     #4a9eff;
+  --teal:     #3ecfaa;
+  --rose:     #f06080;
+  --purple:   #a080f0;
+  --green:    #60c070;
+  --radius:   10px;
+  --mono:     'DM Mono', monospace;
+  --display:  'Syne', sans-serif;
+  --body:     'DM Sans', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--body);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── HEADER ── */
+.header {
+  padding: 2rem 2.5rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0;
+}
+
+.wordmark {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 1.25rem;
+}
+
+.logo-text {
+  font-family: var(--display);
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  color: var(--text);
+}
+
+.logo-text em {
+  font-style: normal;
+  color: var(--gold);
+}
+
+.version-pill {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  background: rgba(212,168,67,.15);
+  color: var(--gold);
+  border: 1px solid rgba(212,168,67,.3);
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: .5px;
+}
+
+.header-stats {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1.25rem;
+}
+
+.hs { text-align: right; }
+.hs-num { font-family: var(--display); font-size: 22px; font-weight: 700; color: var(--gold); }
+.hs-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+/* ── TABS ── */
+.tabs {
+  display: flex;
+  gap: 0;
+  padding: 0 2.5rem;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar { display: none; }
+
+.tab {
+  font-family: var(--body);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--muted);
+  padding: 14px 20px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  border-bottom: 2px solid transparent;
+  transition: all .2s;
+  white-space: nowrap;
+  letter-spacing: .2px;
+  position: relative;
+}
+.tab::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 50%; right: 50%;
+  height: 2px;
+  background: var(--gold);
+  transition: all .25s cubic-bezier(.4,0,.2,1);
+}
+.tab.active { color: var(--text); }
+.tab.active::after { left: 0; right: 0; }
+.tab:hover { color: var(--text); }
+
+/* ── PANELS ── */
+.panel { display: none; padding: 2rem 2.5rem 3rem; animation: fadeUp .3s ease; }
+.panel.active { display: block; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── UTILS ── */
+.section-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+.grid-auto { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 10px; }
+
+.card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  transition: border-color .2s;
+}
+.card:hover { border-color: var(--border2); }
+
+.card-title {
+  font-family: var(--display);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  border: 1px solid;
+  display: inline-block;
+}
+
+.badge {
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+/* ── ARCHITECTURE TAB ── */
+.arch-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 24px;
+}
+
+.arch-layer {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  position: relative;
+  transition: border-color .2s;
+}
+.arch-layer:hover { border-color: var(--border2); }
+
+.arch-layer-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.arch-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.arch-chip {
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: 6px;
+  border: 1px solid;
+  font-weight: 400;
+  letter-spacing: -.1px;
+}
+
+.arch-arrow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 0;
+  color: var(--border2);
+  font-size: 18px;
+}
+
+.chip-blue   { background: rgba(74,158,255,.08); color: #7ab8ff; border-color: rgba(74,158,255,.2); }
+.chip-teal   { background: rgba(62,207,170,.08); color: #6ddfc0; border-color: rgba(62,207,170,.2); }
+.chip-gold   { background: rgba(212,168,67,.08); color: var(--gold2); border-color: rgba(212,168,67,.2); }
+.chip-rose   { background: rgba(240,96,128,.08); color: #f08090; border-color: rgba(240,96,128,.2); }
+.chip-purple { background: rgba(160,128,240,.08); color: #b0a0f8; border-color: rgba(160,128,240,.2); }
+.chip-green  { background: rgba(96,192,112,.08); color: #80d490; border-color: rgba(96,192,112,.2); }
+
+.flow-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; }
+
+.flow-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+}
+.flow-card-title {
+  font-family: var(--display);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.flow-step-list { display: flex; flex-direction: column; gap: 6px; }
+.flow-step-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.flow-step-num {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(212,168,67,.15);
+  border: 1px solid rgba(212,168,67,.3);
+  color: var(--gold);
+  font-family: var(--mono);
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.flow-step-item.highlight .flow-step-num {
+  background: var(--gold);
+  color: var(--bg);
+}
+.flow-step-item.highlight { color: var(--text); }
+
+/* ── MODULES TAB ── */
+.modules-filter {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 5px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--border2);
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all .15s;
+  letter-spacing: .3px;
+}
+.filter-btn:hover { border-color: var(--gold); color: var(--gold); }
+.filter-btn.active {
+  background: rgba(212,168,67,.12);
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.modules-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(175px,1fr)); gap: 8px; }
+
+.module-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  cursor: pointer;
+  transition: all .2s;
+  position: relative;
+  overflow: hidden;
+}
+.module-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--accent, transparent);
+  transition: opacity .2s;
+}
+.module-card:hover { border-color: var(--border2); transform: translateY(-1px); }
+.module-card.selected { border-color: var(--gold); background: rgba(212,168,67,.06); }
+.module-card.selected::before { background: var(--gold); }
+
+.module-icon { font-size: 22px; margin-bottom: 10px; }
+.module-name { font-family: var(--display); font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+.module-meta { display: flex; align-items: center; justify-content: space-between; }
+.module-cat { font-family: var(--mono); font-size: 9px; color: var(--dim); letter-spacing: .5px; text-transform: uppercase; }
+.status-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+}
+.dot-done { background: var(--teal); box-shadow: 0 0 6px rgba(62,207,170,.5); }
+.dot-new  { background: var(--gold); box-shadow: 0 0 6px rgba(212,168,67,.5); }
+
+.module-detail {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-top: 16px;
+  display: none;
+  animation: fadeUp .2s ease;
+}
+.module-detail.show { display: block; }
+
+.detail-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.detail-icon { font-size: 28px; }
+.detail-name { font-family: var(--display); font-size: 18px; font-weight: 700; }
+.detail-body { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+.detail-features { display: flex; flex-direction: column; gap: 8px; }
+.feature-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.feature-row::before {
+  content: '→';
+  color: var(--gold);
+  font-family: var(--mono);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.code-block {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: #a0c8f0;
+  line-height: 1.8;
+  white-space: pre;
+  overflow-x: auto;
+}
+.code-block .kw { color: var(--rose); }
+.code-block .str { color: var(--teal); }
+.code-block .num { color: var(--gold); }
+.code-block .cm { color: var(--dim); }
+
+/* ── API FLOW TAB ── */
+.api-flow-container { display: flex; flex-direction: column; gap: 16px; }
+
+.flow-steps {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.flow-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  position: relative;
+  transition: background .15s;
+}
+.flow-step:hover { background: rgba(255,255,255,.02); }
+.flow-step:not(:last-child) { border-bottom: 1px solid var(--border); }
+
+.step-num-col {
+  width: 60px;
+  flex-shrink: 0;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  border-right: 1px solid var(--border);
+}
+
+.step-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.step-num.api-step {
+  background: rgba(74,158,255,.12);
+  border-color: rgba(74,158,255,.3);
+  color: var(--blue);
+}
+.step-num.highlight {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--bg);
+  font-weight: 500;
+}
+
+.step-body {
+  flex: 1;
+  padding: 14px 18px;
+}
+.step-title {
+  font-family: var(--display);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.step-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+.method-pill {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 4px;
+  letter-spacing: .3px;
+}
+.pill-get    { background: rgba(62,207,170,.15); color: var(--teal); border: 1px solid rgba(62,207,170,.25); }
+.pill-post   { background: rgba(74,158,255,.15); color: var(--blue); border: 1px solid rgba(74,158,255,.25); }
+.pill-put    { background: rgba(212,168,67,.15); color: var(--gold); border: 1px solid rgba(212,168,67,.25); }
+.pill-delete { background: rgba(240,96,128,.15); color: var(--rose); border: 1px solid rgba(240,96,128,.25); }
+.pill-sys    { background: rgba(160,128,240,.15); color: var(--purple); border: 1px solid rgba(160,128,240,.25); }
+.pill-socket { background: rgba(96,192,112,.15); color: var(--green); border: 1px solid rgba(96,192,112,.25); }
+
+.step-endpoint {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--dim);
+  margin-top: 4px;
+}
+
+.flow-selector {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.flow-btn {
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 6px 16px;
+  border-radius: 6px;
+  border: 1px solid var(--border2);
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all .15s;
+}
+.flow-btn:hover { border-color: var(--gold); color: var(--gold); }
+.flow-btn.active {
+  background: rgba(212,168,67,.1);
+  border-color: var(--gold);
+  color: var(--gold2);
+}
+
+/* ── ROLES TAB ── */
+.roles-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-bottom: 24px; }
+
+.role-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.role-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.role-icon { font-size: 20px; }
+.role-name { font-family: var(--display); font-size: 15px; font-weight: 700; }
+.role-body { padding: 16px; }
+
+.perm-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+.perm-row:last-child { border: none; }
+.perm-name { color: var(--muted); }
+
+.perm-yes {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--teal);
+  background: rgba(62,207,170,.1);
+  border: 1px solid rgba(62,207,170,.2);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.perm-no {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--dim);
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.security-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+}
+.security-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 14px; }
+.sec-item { font-size: 12px; color: var(--muted); display: flex; gap: 8px; align-items: flex-start; line-height: 1.5; }
+.sec-item::before { content: '◆'; color: var(--gold); font-size: 8px; margin-top: 3px; flex-shrink: 0; }
+
+/* ── DEPLOY TAB ── */
+.deploy-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 20px; }
+
+.deploy-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+}
+.deploy-icon { font-size: 24px; margin-bottom: 10px; }
+.deploy-name {
+  font-family: var(--display);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+.deploy-sub { font-size: 11px; color: var(--muted); margin-bottom: 12px; }
+.deploy-item {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 12px;
+  color: var(--muted);
+  padding: 5px 0;
+  border-bottom: 1px solid var(--border);
+}
+.deploy-item:last-child { border: none; }
+.deploy-item::before { content: '·'; color: var(--gold); font-size: 16px; line-height: 1; }
+
+.phase-timeline {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+
+.timeline-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  position: relative;
+}
+.timeline-row:not(:last-child) { margin-bottom: 0; }
+
+.tl-left {
+  width: 100px;
+  flex-shrink: 0;
+  padding: 14px 16px 14px 0;
+  text-align: right;
+}
+.tl-week {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--gold);
+  font-weight: 500;
+}
+.tl-dates { font-size: 10px; color: var(--dim); margin-top: 2px; }
+
+.tl-mid {
+  width: 40px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 18px;
+}
+.tl-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid var(--gold);
+  background: var(--bg);
+  flex-shrink: 0;
+  z-index: 1;
+}
+.tl-dot.done { background: var(--gold); }
+.tl-line {
+  width: 1px;
+  flex: 1;
+  background: var(--border2);
+  margin-top: 4px;
+  min-height: 30px;
+}
+.timeline-row:last-child .tl-line { display: none; }
+
+.tl-right { flex: 1; padding: 10px 0 16px 4px; }
+.tl-phase {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--blue);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.tl-task {
+  font-family: var(--display);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.tl-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+/* ── PRO FEATURES TAB ── */
+.pro-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+
+.pro-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color .2s, transform .2s;
+  cursor: default;
+}
+.pro-card:hover { border-color: var(--border2); transform: translateY(-2px); }
+.pro-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 80% 20%, var(--glow, transparent) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.pro-icon { font-size: 26px; margin-bottom: 12px; }
+.pro-title {
+  font-family: var(--display);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.pro-desc { font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 12px; }
+.pro-tag { display: inline-block; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .grid-4 { grid-template-columns: repeat(2,1fr); }
+  .roles-grid { grid-template-columns: 1fr; }
+  .deploy-grid { grid-template-columns: repeat(2,1fr); }
+  .pro-grid { grid-template-columns: 1fr 1fr; }
+  .detail-body { grid-template-columns: 1fr; }
+  .header-stats { display: none; }
+}
+@media (max-width: 600px) {
+  .header { padding: 1.5rem 1.25rem 0; }
+  .tabs { padding: 0 1.25rem; }
+  .panel { padding: 1.5rem 1.25rem 2rem; }
+  .grid-3, .grid-2, .pro-grid, .deploy-grid, .grid-4 { grid-template-columns: 1fr; }
+  .security-grid { grid-template-columns: 1fr; }
+  .flow-grid { grid-template-columns: 1fr; }
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+/* ── TABLES (API flow sub-table) ── */
+.ep-table { width: 100%; border-collapse: collapse; }
+.ep-table th {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.ep-table td {
+  padding: 10px 14px;
+  font-size: 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.ep-table tr:last-child td { border: none; }
+.ep-table tr:hover td { background: rgba(255,255,255,.015); }
+.ep-path { font-family: var(--mono); font-size: 11px; color: var(--dim); }
+.r-tag {
+  font-family: var(--mono);
+  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  border: 1px solid;
+}
+.r-all     { color: var(--dim); border-color: var(--border2); background: var(--bg3); }
+.r-manager { color: var(--gold); border-color: rgba(212,168,67,.3); background: rgba(212,168,67,.08); }
+.r-admin   { color: var(--rose); border-color: rgba(240,96,128,.3); background: rgba(240,96,128,.08); }
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<div class="header">
+  <div>
+    <div class="wordmark">
+      <div class="logo-text">Omni<em>POS</em></div>
+      <span class="version-pill">v2.0 · Enterprise Build</span>
+    </div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:1.25rem;font-family:var(--mono)">
+      MERN + Electron + React Native · Full System Architecture Map
+    </div>
+  </div>
+  <div class="header-stats">
+    <div class="hs"><div class="hs-num">20</div><div class="hs-label">DB Models</div></div>
+    <div class="hs"><div class="hs-num">23</div><div class="hs-label">Route Groups</div></div>
+    <div class="hs"><div class="hs-num">80+</div><div class="hs-label">Endpoints</div></div>
+    <div class="hs"><div class="hs-num">31</div><div class="hs-label">Modules</div></div>
+  </div>
+</div>
+
+<!-- ── TABS ── -->
+<div class="tabs">
+  <button class="tab active" onclick="showTab('arch')">Architecture</button>
+  <button class="tab" onclick="showTab('modules')">Modules</button>
+  <button class="tab" onclick="showTab('flow')">API Flow</button>
+  <button class="tab" onclick="showTab('roles')">Roles & Security</button>
+  <button class="tab" onclick="showTab('deploy')">Deployment</button>
+  <button class="tab" onclick="showTab('pro')">Pro Features</button>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- TAB 1: ARCHITECTURE                                -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="panel active" id="tab-arch">
+  <div class="section-label">System Layers</div>
+
+  <div class="arch-flow">
+    <div class="arch-layer">
+      <div class="arch-layer-label">Frontend Layer</div>
+      <div class="arch-chips">
+        <span class="arch-chip chip-blue">⚡ React + Electron (Desktop .exe)</span>
+        <span class="arch-chip chip-blue">📱 React Native + Expo (Mobile APK)</span>
+        <span class="arch-chip chip-blue">🌐 Web QR Receipt Viewer</span>
+        <span class="arch-chip chip-blue">📊 Admin Dashboard (Web)</span>
+      </div>
+    </div>
+    <div class="arch-arrow">⇅</div>
+    <div class="arch-layer">
+      <div class="arch-layer-label">Backend Layer — Node.js + Express</div>
+      <div class="arch-chips">
+        <span class="arch-chip chip-teal">🔐 JWT Auth (8h access + 30d refresh)</span>
+        <span class="arch-chip chip-teal">🛡️ RBAC Middleware (3 roles)</span>
+        <span class="arch-chip chip-teal">📡 Socket.io Real-time Events</span>
+        <span class="arch-chip chip-teal">✅ Joi Validation</span>
+        <span class="arch-chip chip-teal">🚦 Rate Limiting</span>
+        <span class="arch-chip chip-teal">⚙️ stockService (atomic)</span>
+        <span class="arch-chip chip-teal">🔑 qrService (HMAC-SHA256)</span>
+        <span class="arch-chip chip-gold">23 Route Groups · 80+ Endpoints</span>
+      </div>
+    </div>
+    <div class="arch-arrow">⇅</div>
+    <div class="arch-layer">
+      <div class="arch-layer-label">Data Layer</div>
+      <div class="arch-chips">
+        <span class="arch-chip chip-gold">🍃 MongoDB Atlas (Cloud)</span>
+        <span class="arch-chip chip-gold">20 Collections</span>
+        <span class="arch-chip chip-gold">🔒 Mongoose Transactions (Atomic)</span>
+        <span class="arch-chip chip-gold">🔍 Text Search Indexes</span>
+        <span class="arch-chip chip-gold">💾 SQLite (Offline Desktop)</span>
+        <span class="arch-chip chip-gold">📦 AsyncStorage (Offline Mobile)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">Atomic Transaction Flows</div>
+  <div class="flow-grid">
+    <div class="flow-card">
+      <div class="flow-card-title">🛒 Checkout Flow</div>
+      <div class="flow-step-list">
+        <div class="flow-step-item highlight"><div class="flow-step-num">1</div>Scan barcode → GET /products/barcode/:code</div>
+        <div class="flow-step-item"><div class="flow-step-num">2</div>Build cart in frontend (no API)</div>
+        <div class="flow-step-item highlight"><div class="flow-step-num">3</div>POST /orders — begin MongoDB transaction</div>
+        <div class="flow-step-item"><div class="flow-step-num">4</div>Validate stock available per item</div>
+        <div class="flow-step-item"><div class="flow-step-num">5</div>adjustStock(-qty) × N items + StockLog × N</div>
+        <div class="flow-step-item"><div class="flow-step-num">6</div>Save Order document</div>
+        <div class="flow-step-item"><div class="flow-step-num">7</div>Commit transaction (or abort all)</div>
+        <div class="flow-step-item highlight"><div class="flow-step-num">8</div>Emit socket event → store room</div>
+        <div class="flow-step-item"><div class="flow-step-num">9</div>Generate HMAC-signed QR token</div>
+        <div class="flow-step-item highlight"><div class="flow-step-num">10</div>Electron prints receipt silently</div>
+      </div>
+    </div>
+    <div class="flow-card">
+      <div class="flow-card-title">🛍️ Purchase Flow</div>
+      <div class="flow-step-list">
+        <div class="flow-step-item highlight"><div class="flow-step-num">1</div>POST /purchases — begin transaction</div>
+        <div class="flow-step-item"><div class="flow-step-num">2</div>Validate supplier belongs to store</div>
+        <div class="flow-step-item"><div class="flow-step-num">3</div>adjustStock(+qty) × N items + StockLog × N</div>
+        <div class="flow-step-item"><div class="flow-step-num">4</div>Save Purchase document</div>
+        <div class="flow-step-item highlight"><div class="flow-step-num">5</div>Supplier.currentBalance += balanceDue</div>
+        <div class="flow-step-item"><div class="flow-step-num">6</div>Commit transaction</div>
+      </div>
+      <div style="margin-top:16px">
+      <div class="flow-card-title">🔀 Stock Transfer Flow</div>
+      <div class="flow-step-list">
+        <div class="flow-step-item highlight"><div class="flow-step-num">1</div>POST /stock-transfers — deduct source</div>
+        <div class="flow-step-item"><div class="flow-step-num">2</div>Status → "in_transit"</div>
+        <div class="flow-step-item"><div class="flow-step-num">3</div>Destination PUT /:id/receive</div>
+        <div class="flow-step-item highlight"><div class="flow-step-num">4</div>adjustStock(+qty) at dest store</div>
+        <div class="flow-step-item"><div class="flow-step-num">5</div>Status → "received"</div>
+      </div>
+      </div>
+    </div>
+    <div class="flow-card">
+      <div class="flow-card-title">🔙 Sales Return Flow</div>
+      <div class="flow-step-list">
+        <div class="flow-step-item highlight"><div class="flow-step-num">1</div>POST /sales-returns — begin transaction</div>
+        <div class="flow-step-item"><div class="flow-step-num">2</div>adjustStock(+qty) × N items (restore)</div>
+        <div class="flow-step-item"><div class="flow-step-num">3</div>Save SalesReturn document</div>
+        <div class="flow-step-item highlight"><div class="flow-step-num">4a</div>refundMethod=cash → pay out counter</div>
+        <div class="flow-step-item highlight"><div class="flow-step-num">4b</div>refundMethod=wallet → customer.walletBalance += amt</div>
+        <div class="flow-step-item highlight"><div class="flow-step-num">4c</div>refundMethod=points → loyaltyPoints += floor(amt)</div>
+        <div class="flow-step-item"><div class="flow-step-num">5</div>Commit transaction</div>
+      </div>
+    </div>
+    <div class="flow-card">
+      <div class="flow-card-title">🔲 QR Receipt Verification</div>
+      <div class="flow-step-list">
+        <div class="flow-step-item highlight"><div class="flow-step-num">1</div>Customer scans QR code</div>
+        <div class="flow-step-item"><div class="flow-step-num">2</div>GET /orders/receipt/:qrToken (public)</div>
+        <div class="flow-step-item"><div class="flow-step-num">3</div>Base64 decode → orderId:timestamp:hmac</div>
+        <div class="flow-step-item highlight"><div class="flow-step-num">4</div>HMAC-SHA256 verify (timing-safe)</div>
+        <div class="flow-step-item"><div class="flow-step-num">5</div>Check token age ≤ 30 days</div>
+        <div class="flow-step-item"><div class="flow-step-num">6</div>Fetch order (strip costPrice)</div>
+        <div class="flow-step-item highlight"><div class="flow-step-num">7</div>Return { order, status: "valid" | "tampered" }</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- TAB 2: MODULES                                     -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="panel" id="tab-modules">
+  <div class="modules-filter" id="modules-filter"></div>
+  <div class="modules-grid" id="modules-grid"></div>
+  <div class="module-detail" id="module-detail"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- TAB 3: API FLOW                                    -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="panel" id="tab-flow">
+  <div class="flow-selector" id="flow-selector"></div>
+  <div id="flow-table"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- TAB 4: ROLES & SECURITY                            -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="panel" id="tab-roles">
+  <div class="section-label">Role Permissions Matrix</div>
+  <div class="roles-grid">
+    <div class="role-card">
+      <div class="role-header" style="border-left:3px solid var(--rose)">
+        <div class="role-icon">👑</div>
+        <div>
+          <div class="role-name">Admin</div>
+          <div style="font-size:11px;color:var(--muted)">Unrestricted access</div>
+        </div>
+      </div>
+      <div class="role-body">
+        <div class="perm-row"><span class="perm-name">POS Operations</span><span class="perm-yes">✓ FULL</span></div>
+        <div class="perm-row"><span class="perm-name">User Management</span><span class="perm-yes">✓ FULL</span></div>
+        <div class="perm-row"><span class="perm-name">Reports + Exports</span><span class="perm-yes">✓ FULL</span></div>
+        <div class="perm-row"><span class="perm-name">Inventory Control</span><span class="perm-yes">✓ FULL</span></div>
+        <div class="perm-row"><span class="perm-name">Purchases</span><span class="perm-yes">✓ FULL</span></div>
+        <div class="perm-row"><span class="perm-name">Payroll Management</span><span class="perm-yes">✓ FULL</span></div>
+        <div class="perm-row"><span class="perm-name">Banking</span><span class="perm-yes">✓ FULL</span></div>
+        <div class="perm-row"><span class="perm-name">System Settings</span><span class="perm-yes">✓ FULL</span></div>
+        <div class="perm-row"><span class="perm-name">Vouchers / Loyalty</span><span class="perm-yes">✓ FULL</span></div>
+        <div class="perm-row"><span class="perm-name">Accounting Reports</span><span class="perm-yes">✓ FULL</span></div>
+        <div class="perm-row"><span class="perm-name">Product Delete</span><span class="perm-yes">✓ FULL</span></div>
+        <div class="perm-row"><span class="perm-name">Order Void</span><span class="perm-yes">✓ FULL</span></div>
+      </div>
+    </div>
+    <div class="role-card">
+      <div class="role-header" style="border-left:3px solid var(--gold)">
+        <div class="role-icon">🗂️</div>
+        <div>
+          <div class="role-name">Manager</div>
+          <div style="font-size:11px;color:var(--muted)">Operations + reporting</div>
+        </div>
+      </div>
+      <div class="role-body">
+        <div class="perm-row"><span class="perm-name">POS Operations</span><span class="perm-yes">✓ YES</span></div>
+        <div class="perm-row"><span class="perm-name">User Management</span><span class="perm-no">✗ NO</span></div>
+        <div class="perm-row"><span class="perm-name">Reports + Exports</span><span class="perm-yes">✓ YES</span></div>
+        <div class="perm-row"><span class="perm-name">Inventory Control</span><span class="perm-yes">✓ YES</span></div>
+        <div class="perm-row"><span class="perm-name">Purchases</span><span class="perm-yes">✓ YES</span></div>
+        <div class="perm-row"><span class="perm-name">Payroll Management</span><span class="perm-yes">✓ CREATE</span></div>
+        <div class="perm-row"><span class="perm-name">Banking</span><span class="perm-yes">✓ VIEW/TX</span></div>
+        <div class="perm-row"><span class="perm-name">System Settings</span><span class="perm-no">✗ NO</span></div>
+        <div class="perm-row"><span class="perm-name">Vouchers / Loyalty</span><span class="perm-yes">✓ YES</span></div>
+        <div class="perm-row"><span class="perm-name">Accounting Reports</span><span class="perm-yes">✓ VIEW</span></div>
+        <div class="perm-row"><span class="perm-name">Product Delete</span><span class="perm-no">✗ NO</span></div>
+        <div class="perm-row"><span class="perm-name">Order Void</span><span class="perm-yes">✓ YES</span></div>
+      </div>
+    </div>
+    <div class="role-card">
+      <div class="role-header" style="border-left:3px solid var(--blue)">
+        <div class="role-icon">🧑‍💻</div>
+        <div>
+          <div class="role-name">Cashier</div>
+          <div style="font-size:11px;color:var(--muted)">POS counter only</div>
+        </div>
+      </div>
+      <div class="role-body">
+        <div class="perm-row"><span class="perm-name">POS Operations</span><span class="perm-yes">✓ YES</span></div>
+        <div class="perm-row"><span class="perm-name">User Management</span><span class="perm-no">✗ NO</span></div>
+        <div class="perm-row"><span class="perm-name">Reports + Exports</span><span class="perm-no">✗ NO</span></div>
+        <div class="perm-row"><span class="perm-name">Inventory Control</span><span class="perm-no">✗ NO</span></div>
+        <div class="perm-row"><span class="perm-name">Purchases</span><span class="perm-no">✗ NO</span></div>
+        <div class="perm-row"><span class="perm-name">Payroll Management</span><span class="perm-no">✗ NO</span></div>
+        <div class="perm-row"><span class="perm-name">Banking</span><span class="perm-no">✗ NO</span></div>
+        <div class="perm-row"><span class="perm-name">System Settings</span><span class="perm-no">✗ NO</span></div>
+        <div class="perm-row"><span class="perm-name">Vouchers / Loyalty</span><span class="perm-yes">✓ APPLY</span></div>
+        <div class="perm-row"><span class="perm-name">Accounting Reports</span><span class="perm-no">✗ NO</span></div>
+        <div class="perm-row"><span class="perm-name">costPrice visible</span><span class="perm-no">✗ HIDDEN</span></div>
+        <div class="perm-row"><span class="perm-name">Open/Close Shift</span><span class="perm-yes">✓ OWN</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">Security Stack</div>
+  <div class="security-card">
+    <div class="security-grid">
+      <div class="sec-item">JWT access tokens (8h) + refresh tokens (30d). Silent re-auth on expiry.</div>
+      <div class="sec-item">bcrypt (salt 12) password hashing. Never stored or returned in plaintext.</div>
+      <div class="sec-item">Rate limiting: 20 req/15min on auth. 300 req/min on all API routes.</div>
+      <div class="sec-item">Joi schema validation on every POST/PUT. Unknown fields stripped automatically.</div>
+      <div class="sec-item">Helmet.js — sets X-Frame-Options, CSP, HSTS, X-Content-Type headers.</div>
+      <div class="sec-item">CORS restricted to allowed origins in production (env config).</div>
+      <div class="sec-item">costPrice stripped from all Cashier-role responses at controller level.</div>
+      <div class="sec-item">QR tokens: HMAC-SHA256 signed, 30-day TTL, timing-safe tamper detection.</div>
+      <div class="sec-item">MongoDB transactions ensure stock mutations are always atomic — no partial updates.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- TAB 5: DEPLOYMENT                                  -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="panel" id="tab-deploy">
+  <div class="section-label">Deployment Targets</div>
+  <div class="deploy-grid">
+    <div class="deploy-card">
+      <div class="deploy-icon">☁️</div>
+      <div class="deploy-name">Backend API</div>
+      <div class="deploy-sub">Node.js server</div>
+      <div class="deploy-item">VPS / Render / Railway</div>
+      <div class="deploy-item">PM2 process manager</div>
+      <div class="deploy-item">Nginx reverse proxy</div>
+      <div class="deploy-item">SSL via Let's Encrypt</div>
+      <div class="deploy-item">Auto-restart on crash</div>
+    </div>
+    <div class="deploy-card">
+      <div class="deploy-icon">🍃</div>
+      <div class="deploy-name">Database</div>
+      <div class="deploy-sub">MongoDB Atlas</div>
+      <div class="deploy-item">Cloud-hosted cluster</div>
+      <div class="deploy-item">20 indexed collections</div>
+      <div class="deploy-item">Daily auto-backups</div>
+      <div class="deploy-item">Replica set (atomic tx)</div>
+      <div class="deploy-item">Connection pooling</div>
+    </div>
+    <div class="deploy-card">
+      <div class="deploy-icon">🖥️</div>
+      <div class="deploy-name">Desktop App</div>
+      <div class="deploy-sub">Electron .exe</div>
+      <div class="deploy-item">Electron Builder → .exe</div>
+      <div class="deploy-item">SQLite offline storage</div>
+      <div class="deploy-item">Auto-sync on reconnect</div>
+      <div class="deploy-item">Silent thermal printing</div>
+      <div class="deploy-item">IPC main/renderer</div>
+    </div>
+    <div class="deploy-card">
+      <div class="deploy-icon">📱</div>
+      <div class="deploy-name">Mobile App</div>
+      <div class="deploy-sub">Expo React Native</div>
+      <div class="deploy-item">Expo → Android APK</div>
+      <div class="deploy-item">AsyncStorage offline</div>
+      <div class="deploy-item">QR scanner built-in</div>
+      <div class="deploy-item">Dashboard + inventory</div>
+      <div class="deploy-item">iOS build ready</div>
+    </div>
+  </div>
+
+  <div class="section-label">Project Delivery Timeline — 8 Weeks</div>
+  <div class="phase-timeline">
+    <div class="timeline-row">
+      <div class="tl-left"><div class="tl-week">Week 1–2</div><div class="tl-dates">May 1–14</div></div>
+      <div class="tl-mid"><div class="tl-dot done"></div><div class="tl-line"></div></div>
+      <div class="tl-right">
+        <div class="tl-phase">Phase 1</div>
+        <div class="tl-task">Backend Foundation</div>
+        <div class="tl-desc">Node.js + Express setup, all 20 MongoDB schemas, JWT auth system, RBAC middleware, rate limiting, all 23 route groups, seed script</div>
+      </div>
+    </div>
+    <div class="timeline-row">
+      <div class="tl-left"><div class="tl-week">Week 2–3</div><div class="tl-dates">May 12–21</div></div>
+      <div class="tl-mid"><div class="tl-dot done"></div><div class="tl-line"></div></div>
+      <div class="tl-right">
+        <div class="tl-phase">Phase 2</div>
+        <div class="tl-task">POS Engine + Billing</div>
+        <div class="tl-desc">Electron + React POS screen, always-focused scan input, cart management, live totals, split payment modal, unknown barcode popup</div>
+      </div>
+    </div>
+    <div class="timeline-row">
+      <div class="tl-left"><div class="tl-week">Week 3–4</div><div class="tl-dates">May 19–28</div></div>
+      <div class="tl-mid"><div class="tl-dot"></div><div class="tl-line"></div></div>
+      <div class="tl-right">
+        <div class="tl-phase">Phase 3</div>
+        <div class="tl-task">QR Receipt + Print Engine</div>
+        <div class="tl-desc">HMAC-signed QR tokens, web receipt viewer, tamper detection, Electron IPC silent thermal printing, custom branding</div>
+      </div>
+    </div>
+    <div class="timeline-row">
+      <div class="tl-left"><div class="tl-week">Week 4–5</div><div class="tl-dates">May 26–Jun 4</div></div>
+      <div class="tl-mid"><div class="tl-dot"></div><div class="tl-line"></div></div>
+      <div class="tl-right">
+        <div class="tl-phase">Phase 4</div>
+        <div class="tl-task">Inventory + Purchase System</div>
+        <div class="tl-desc">Supplier management, Purchase + Purchase Return with atomic stock, Sales Return with wallet/points refund, Stock Transfer two-phase flow</div>
+      </div>
+    </div>
+    <div class="timeline-row">
+      <div class="tl-left"><div class="tl-week">Week 5–6</div><div class="tl-dates">Jun 2–11</div></div>
+      <div class="tl-mid"><div class="tl-dot"></div><div class="tl-line"></div></div>
+      <div class="tl-right">
+        <div class="tl-phase">Phase 5</div>
+        <div class="tl-task">HR + Customer Modules</div>
+        <div class="tl-desc">Credit customer system, wallet top-up, loyalty card + points, salesman commission tracking, payroll, expense management, vouchers</div>
+      </div>
+    </div>
+    <div class="timeline-row">
+      <div class="tl-left"><div class="tl-week">Week 6–7</div><div class="tl-dates">Jun 9–18</div></div>
+      <div class="tl-mid"><div class="tl-dot"></div><div class="tl-line"></div></div>
+      <div class="tl-right">
+        <div class="tl-phase">Phase 6</div>
+        <div class="tl-task">Reports + Accounting Dashboard</div>
+        <div class="tl-desc">POS reports, shift close reconciliation, P&L statement, balance sheet, cash flow, payables/receivables, banking, export PDF/Excel</div>
+      </div>
+    </div>
+    <div class="timeline-row">
+      <div class="tl-left"><div class="tl-week">Week 7–8</div><div class="tl-dates">Jun 16–25</div></div>
+      <div class="tl-mid"><div class="tl-dot"></div><div class="tl-line"></div></div>
+      <div class="tl-right">
+        <div class="tl-phase">Phase 7</div>
+        <div class="tl-task">Mobile App + Real-Time Sync</div>
+        <div class="tl-desc">React Native Expo app, AsyncStorage offline, QR scanner, Socket.io live dashboard, multi-device stock sync, admin live feed</div>
+      </div>
+    </div>
+    <div class="timeline-row">
+      <div class="tl-left"><div class="tl-week">Week 8</div><div class="tl-dates">Jun 23–30</div></div>
+      <div class="tl-mid"><div class="tl-dot"></div><div class="tl-line"></div></div>
+      <div class="tl-right">
+        <div class="tl-phase">Phase 8</div>
+        <div class="tl-task">QA + Deploy + Handover</div>
+        <div class="tl-desc">Full QA pass, Electron .exe build, APK build, VPS deployment, MongoDB Atlas setup, handover documentation + source code</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- TAB 6: PRO FEATURES                                -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="panel" id="tab-pro">
+  <div class="section-label">Advanced & Future Features</div>
+  <div class="pro-grid" id="pro-grid"></div>
+</div>
+
+<script>
+// ════════════════════════════════════════════════════════
+// DATA
+// ════════════════════════════════════════════════════════
+
+const modules = [
+  // Core
+  { icon:'🛒', name:'POS Engine',         cat:'Core',     status:'done',
+    features:['Ultra-fast barcode scan — no UI delay','Always-focused scan input field','Cart memory — hold & load orders','Multi-cart support','Keyboard fallback entry','Unknown barcode → create product popup'],
+    code:`// Scan → Lookup → Cart
+GET /products/barcode/:code
+  ↓
+cartStore.addItem(product)
+  ↓
+recalculateTotals()  // instant, no API` },
+
+  { icon:'🧾', name:'Billing Engine',     cat:'Core',     status:'done',
+    features:['Flat or percentage discounts per item / total','Configurable tax rate per store','Split payment: cash + mobile banking','Rounding system (2 decimal)','Real-time total recalculation','Voucher code application'],
+    code:`Subtotal = Σ (price × qty)
+Discount = flat | (subtotal × pct/100)
+Tax      = (subtotal - discount) × rate
+Total    = subtotal - discount + tax` },
+
+  { icon:'🔲', name:'QR Receipt',         cat:'Core',     status:'done',
+    features:['HMAC-SHA256 signed token — not raw orderId','30-day expiry TTL','Tamper detection (timing-safe compare)','Web viewer strips costPrice from output','Status: valid | tampered | expired','Shareable URL — works on any device'],
+    code:`token = Base64url(
+  orderId + ":" + timestamp
+  + ":" + HMAC-SHA256(secret)
+)
+url = /r/{token}` },
+
+  { icon:'🖨️', name:'Print Engine',       cat:'Core',     status:'done',
+    features:['Electron IPC silent printing (no dialog)','Custom store branding + logo','QR code embedded in receipt','Thermal printer via TCP/IP or USB','Configurable receipt width (58mm/80mm)','Auto-print after checkout'],
+    code:`// Electron main process
+ipcMain.handle('print', (e, data) => {
+  printer.print(buildESCP(data), {
+    silent: true,
+    deviceName: config.printer
+  })
+})` },
+
+  { icon:'🔄', name:'Real-Time Sync',     cat:'Core',     status:'done',
+    features:['Socket.io rooms per store','Live order events → admin dashboard','Multi-device stock update broadcasts','Offline-first: SQLite (desktop)','AsyncStorage (mobile) sync on reconnect','Conflict resolution on reconnect'],
+    code:`// Backend emits
+io.to('store:${'{'}storeId}')
+  .emit('order:new', summary)
+  .emit('stock:updated', delta)
+
+// Desktop listens
+socket.on('stock:updated', refresh)` },
+
+  // Settings
+  { icon:'🏪', name:'Company Info',       cat:'Settings', status:'done',
+    features:['Store name, address, phone','Tax rate + tax label (VAT/GST)','Currency (BDT/USD/etc)','Timezone configuration','Receipt footer message','Logo URL for receipts'],
+    code:`Store: {
+  taxRate: 5,      // percent
+  taxLabel: 'VAT',
+  currency: 'BDT',
+  timezone: 'Asia/Dhaka'
+}` },
+
+  { icon:'🗂️', name:'Categories',         cat:'Settings', status:'new',
+    features:['Create / edit / remove categories','Unique per store (no cross-store conflict)','Linked to products for filtering','Used in reports for category breakdown','Soft delete (no data loss)','Real-time search filter on products'],
+    code:`GET  /api/v1/categories
+POST /api/v1/categories
+PUT  /api/v1/categories/:id
+DEL  /api/v1/categories/:id` },
+
+  { icon:'📦', name:'Products',           cat:'Settings', status:'done',
+    features:['Barcode (unique per store)','Sell price + cost price (hidden from cashier)','Stock level with low-stock alerts','Unit: pcs/kg/liter/dozen/pack','Batch CSV import (Phase 2)','Text search by name or category'],
+    code:`Product.index({
+  barcode: 1, storeId: 1
+}, { unique: true })
+
+Product.index({
+  name: 'text', category: 'text'
+})` },
+
+  { icon:'🔖', name:'Barcode Printing',   cat:'Settings', status:'new',
+    features:['Generate barcode SVG per product','Bulk barcode sheet (multiple products)','EAN-13 / Code128 format','Rendered in Electron via JsBarcode','Print directly from product table','Custom label size'],
+    code:`GET /api/v1/barcodes/generate/:id
+POST /api/v1/barcodes/bulk
+// Returns SVG + meta for frontend
+// Electron renders via JsBarcode` },
+
+  { icon:'🧑‍💼', name:'Salesman',           cat:'Settings', status:'new',
+    features:['Salesman profile with commission rate','Auto-commission calc on linked sales','Performance report: sales + commission','Attach salesman to orders at POS','Total sales / commission tracking','Date-range performance filter'],
+    code:`GET /api/v1/salesman/:id/performance
+→ { totalOrders, totalSales,
+    totalCommission, avgOrder }` },
+
+  { icon:'💰', name:'Wallet System',      cat:'Settings', status:'new',
+    features:['Prepaid wallet per customer','Top-up by cash / bank transfer','Auto-deduct wallet at POS checkout','Sales return refund → wallet option','Wallet balance visible at POS scan','Full transaction history per customer'],
+    code:`POST /customers/:id/wallet/topup
+{ amount: 500 }
+// Customer.walletBalance += 500
+
+// At checkout:
+if (payMethod === 'wallet') {
+  customer.walletBalance -= total
+}` },
+
+  { icon:'🎯', name:'Loyalty Card',       cat:'Settings', status:'new',
+    features:['Points earned per currency unit spent','Configurable points value (e.g. 1pt = ৳0.01)','Minimum points to redeem (e.g. 100pts)','Redeem points for discount at POS','Points history log per customer','Manual adjustment by manager'],
+    code:`LoyaltySettings: {
+  pointsPerCurrency: 1,
+  pointsValue: 0.01,
+  minRedeemPoints: 100
+}
+// Earned = floor(orderTotal × 1)` },
+
+  { icon:'🏦', name:'Banking',            cat:'Settings', status:'new',
+    features:['Multiple bank accounts per store','Opening + current balance tracking','Record deposits / withdrawals','Account-to-account transfers','Full transaction ledger per account','Reference / cheque number logging'],
+    code:`POST /banking/accounts/:id/deposit
+POST /banking/accounts/:id/withdraw
+POST /banking/transfer
+// All update BankAccount.currentBalance` },
+
+  // Inventory
+  { icon:'🚚', name:'Supplier',           cat:'Inventory',status:'new',
+    features:['Supplier profile with company + contact','Opening balance (payables tracking)','Running current balance (auto-updated)','Linked to all purchases + returns','List/search by name or company','Soft deactivate (data preserved)'],
+    code:`Supplier.currentBalance:
+  += balanceDue   // on purchase
+  -= amount       // on payment
+  -= returnTotal  // on return` },
+
+  { icon:'🛍️', name:'Purchase',           cat:'Inventory',status:'new',
+    features:['Atomic: stock increment + supplier debit','Partial / full / credit payment tracking','Auto-generate purchase number','Discount + tax on purchase','Record payment later (supplier credit)','Linked to supplier payables ledger'],
+    code:`POST /api/v1/purchases
+// MongoDB transaction:
+adjustStock(+qty) × N items
+Save Purchase
+Supplier.balance += balanceDue
+Commit` },
+
+  { icon:'↩️', name:'Purchase Return',    cat:'Inventory',status:'new',
+    features:['Return damaged/wrong items to supplier','Atomic stock deduction on return','Supplier balance reduced automatically','Linked to original purchase','Reason field for audit trail','Auto-generate return number'],
+    code:`POST /api/v1/purchase-returns
+// MongoDB transaction:
+adjustStock(-qty) × N items
+Save PurchaseReturn
+Supplier.balance -= returnTotal
+Commit` },
+
+  { icon:'📋', name:'Quotation',          cat:'Inventory',status:'new',
+    features:['Create quotations for customers','Item snapshot with qty + price + discount','Valid-until date with expiry status','Status: draft → sent → accepted/rejected','One-click convert to real Order','Linked order reference after conversion'],
+    code:`POST /quotations/:id/convert
+// Creates Order from Quotation
+// Sets quotation.status = 'accepted'
+// Sets quotation.convertedToOrderId` },
+
+  { icon:'🔙', name:'Sales Return',       cat:'Inventory',status:'new',
+    features:['Accept customer item returns','Atomic stock restore on return','Refund options: cash / wallet / loyalty pts','Optional link to original order','Cashier-level access (any role)','Reason field for audit trail'],
+    code:`refundMethod options:
+  'cash'           → counter payout
+  'wallet'         → balance += amt
+  'loyalty_points' → pts += floor(amt)` },
+
+  { icon:'📊', name:'Stock Adjustment',   cat:'Inventory',status:'done',
+    features:['Manual +/- stock adjustments','Reason: restock/damage/adjustment/return','Every change writes StockLog (immutable)','Manager+ role required','Real-time socket broadcast on adjust','Low-stock alert checking after adjust'],
+    code:`POST /api/v1/inventory/adjust
+// Always goes through stockService:
+adjustStock(productId, delta, reason,
+  userId, null, note)
+// Atomic: update + log in one call` },
+
+  { icon:'🔀', name:'Stock Transfer',     cat:'Inventory',status:'new',
+    features:['Transfer stock between store branches','Two-phase: initiate → confirm receipt','Source stock deducted immediately','Destination stock added on confirmation','Full audit: who sent, who received','Status: pending → in_transit → received'],
+    code:`// Phase 1: source store
+POST /stock-transfers
+adjustStock(-qty) at fromStore
+
+// Phase 2: dest store confirms
+PUT /stock-transfers/:id/receive
+adjustStock(+qty) at toStore` },
+
+  // HR
+  { icon:'💳', name:'Credit Customer',    cat:'HR',       status:'new',
+    features:['Per-customer credit limit setting','Outstanding credit balance tracking','Credit used at POS up to limit','Record credit repayments with history','Overpayment auto-converts to wallet','Manager approval for limit changes'],
+    code:`// At POS checkout:
+if (payMethod === 'credit') {
+  if (balance + total > creditLimit)
+    throw 'Limit exceeded'
+  customer.creditBalance += total
+}` },
+
+  { icon:'💸', name:'Expenses',           cat:'HR',       status:'new',
+    features:['Expense type categories (Rent/Electric/etc)','Record daily expenses with date/method','Payment method: cash/bank/mobile','Reference number logging','Date-range expense reports','Used in P&L and cash flow calcs'],
+    code:`POST /api/v1/expenses
+{
+  expenseTypeId, amount,
+  description, date,
+  paymentMethod, reference
+}` },
+
+  { icon:'🎟️', name:'Vouchers',           cat:'HR',       status:'new',
+    features:['Flat or percentage discount codes','Usage limit (1-use, multi-use, unlimited)','Per-customer or public vouchers','Valid-from / valid-until dates','Validate at POS before applying','Minimum order value enforcement'],
+    code:`GET /vouchers/validate/:code
+→ { valid, type, value,
+    remaining, minOrderValue }
+// Frontend applies discount if valid` },
+
+  { icon:'💼', name:'Payroll',            cat:'HR',       status:'new',
+    features:['Monthly payroll per employee','Basic salary + bonus + deductions','Net salary auto-calculated','Mark as paid with date tracking','Payment method: cash/bank/mobile','One payroll per user per month (enforced)'],
+    code:`Payroll.index({
+  userId:1, month:1,
+  year:1, storeId:1
+}, { unique: true })
+netSalary = basic + bonus - deductions` },
+
+  // Reports
+  { icon:'📈', name:'POS Reports',        cat:'Reports',  status:'done',
+    features:['Daily: orders, revenue, profit, discount','Date-range aggregation with filters','Top products by qty sold + revenue','Hourly sales breakdown (peak hours)','Per-cashier performance stats','All via MongoDB aggregation pipelines'],
+    code:`// Daily aggregation
+Order.aggregate([
+  { $match: { storeId, date, status } },
+  { $group: { totalSales, totalProfit,
+    totalOrders, avgOrder } }
+])` },
+
+  { icon:'🕐', name:'Shift Closing',      cat:'Reports',  status:'new',
+    features:['Open shift with physical cash count','Track: orders, returns, discounts per shift','Auto-compute expected cash from sales','Compare expected vs. counted cash','Cash difference flag (over/short)','Manager can review all shifts'],
+    code:`// On close:
+expectedCash = openingCash
+  + cashSales - returns
+difference = closingCash - expectedCash
+// Positive = over, Negative = short` },
+
+  { icon:'📒', name:'Accounting Reports', cat:'Reports',  status:'new',
+    features:['P&L: revenue − COGS − expenses','Balance sheet: assets vs liabilities','Cash flow: inflows vs outflows','Payables ledger (per supplier)','Receivables ledger (per customer)','All date-range filterable'],
+    code:`// P&L Summary
+revenue   = Σ order.total
+cogs      = Σ order.costTotal
+expenses  = Σ expense.amount
+profit    = revenue - cogs - expenses` },
+
+  { icon:'📜', name:'Stock + Audit Logs', cat:'Reports',  status:'done',
+    features:['Every stock change logged immutably','Who changed, when, why, how much','Reason codes: sale/restock/return/damage','Linked to orderId or purchaseId','Filter by product, reason, date, user','Used for inventory discrepancy audit'],
+    code:`StockLog: {
+  productId, storeId,
+  delta: +/- qty,
+  reason, changedBy,
+  orderId | purchaseId,
+  note, createdAt
+}` },
+
+  { icon:'💹', name:'P&L + Cash Flow',    cat:'Reports',  status:'new',
+    features:['Profit & Loss with gross + net margins','Cash flow: operating/investing/financing','Supplier payables aging report','Customer receivables aging report','Export to PDF/Excel (Phase 2)','Compare periods (month over month)'],
+    code:`GET /accounting/profit-loss
+GET /accounting/cash-flow
+GET /accounting/payables
+GET /accounting/receivables
+GET /accounting/balance-sheet` },
+];
+
+const flows = {
+  checkout: {
+    label: '🛒 Checkout',
+    steps: [
+      { n:1, title:'Scan Barcode',         desc:'GET /api/v1/products/barcode/:code — returns product snapshot',   tag:'GET',    endpoint: true },
+      { n:2, title:'Add to Cart',          desc:'Frontend only — instant UI update, no API call',                   tag:'LOCAL',  endpoint: false },
+      { n:3, title:'Apply Voucher',        desc:'GET /api/v1/vouchers/validate/:code — optional discount',          tag:'GET',    endpoint: false },
+      { n:4, title:'Checkout',             desc:'POST /api/v1/orders — starts MongoDB transaction',                 tag:'POST',   endpoint: true, highlight: true },
+      { n:5, title:'Validate Stock',       desc:'Check each item qty ≤ current stock inside transaction',           tag:'SYS',    endpoint: false },
+      { n:6, title:'Deduct Stock',         desc:'stockService.adjustStock(-qty) × N items — writes StockLog × N',  tag:'SYS',    endpoint: false },
+      { n:7, title:'Save Order',           desc:'Order document saved with full item snapshots + billing breakdown',tag:'SYS',    endpoint: false },
+      { n:8, title:'Update Customer',      desc:'If wallet/loyalty/credit payment — update customer balances',      tag:'SYS',    endpoint: false },
+      { n:9, title:'Commit Transaction',   desc:'All changes atomic — if any step fails, everything rolls back',    tag:'SYS',    endpoint: false, highlight: true },
+      { n:10,title:'Emit Socket Event',    desc:'io.to("store:id").emit("order:new", summary) — live dashboard',    tag:'SOCKET', endpoint: false },
+      { n:11,title:'Generate QR Token',    desc:'HMAC-SHA256 signed token: orderId + timestamp + secret',           tag:'SYS',    endpoint: false },
+      { n:12,title:'Return to Desktop',    desc:'Response: { order, receipt: { qrToken, qrUrl, storeName } }',      tag:'RES',    endpoint: false },
+      { n:13,title:'Print Receipt',        desc:'Electron IPC → silently prints thermal receipt with QR embedded',  tag:'IPC',    endpoint: false, highlight: true },
+    ]
+  },
+  purchase: {
+    label: '🛍️ Purchase',
+    steps: [
+      { n:1, title:'Select Supplier',      desc:'GET /api/v1/suppliers — pick supplier for this purchase',           tag:'GET',  endpoint: true },
+      { n:2, title:'Add Items',            desc:'Frontend cart — add products with qty + cost price',                tag:'LOCAL',endpoint: false },
+      { n:3, title:'Create Purchase',      desc:'POST /api/v1/purchases — starts MongoDB transaction',               tag:'POST', endpoint: true, highlight: true },
+      { n:4, title:'Increment Stock',      desc:'stockService.adjustStock(+qty) × N items — writes StockLog × N',   tag:'SYS',  endpoint: false },
+      { n:5, title:'Save Purchase Doc',    desc:'Purchase document with items, totals, payment status',              tag:'SYS',  endpoint: false },
+      { n:6, title:'Update Supplier Bal',  desc:'Supplier.currentBalance += balanceDue (if not fully paid)',         tag:'SYS',  endpoint: false },
+      { n:7, title:'Commit Transaction',   desc:'All atomic — stock + purchase + supplier in one transaction',       tag:'SYS',  endpoint: false, highlight: true },
+      { n:8, title:'Record Payment Later', desc:'PUT /purchases/:id/payment — reduce supplier balance',              tag:'PUT',  endpoint: true },
+    ]
+  },
+  return: {
+    label: '🔙 Sales Return',
+    steps: [
+      { n:1, title:'Find Original Order',  desc:'GET /api/v1/orders/:id — optional reference to original',           tag:'GET',  endpoint: true },
+      { n:2, title:'Select Return Items',  desc:'Choose items + qty to return — partial returns supported',           tag:'LOCAL',endpoint: false },
+      { n:3, title:'Pick Refund Method',   desc:'Cash | Wallet credit | Loyalty points — cashier selects',           tag:'LOCAL',endpoint: false },
+      { n:4, title:'Create Return',        desc:'POST /api/v1/sales-returns — starts MongoDB transaction',            tag:'POST', endpoint: true, highlight: true },
+      { n:5, title:'Restore Stock',        desc:'stockService.adjustStock(+qty) × N items — writes StockLog × N',   tag:'SYS',  endpoint: false },
+      { n:6, title:'Apply Refund',         desc:'wallet += amt | loyaltyPoints += floor(amt) | cash at counter',     tag:'SYS',  endpoint: false, highlight: true },
+      { n:7, title:'Commit Transaction',   desc:'Stock restore + customer update atomic in one transaction',          tag:'SYS',  endpoint: false },
+    ]
+  },
+  shift: {
+    label: '🕐 Shift Close',
+    steps: [
+      { n:1, title:'Open Shift',           desc:'POST /api/v1/shifts/open — cashier enters opening cash amount',      tag:'POST', endpoint: true },
+      { n:2, title:'Work Shift',           desc:'All sales, returns, discounts tracked against this shiftId',         tag:'LOCAL',endpoint: false },
+      { n:3, title:'Count Closing Cash',   desc:'Cashier physically counts cash in drawer',                           tag:'LOCAL',endpoint: false },
+      { n:4, title:'Close Shift',          desc:'POST /api/v1/shifts/close — enters closingCash amount',              tag:'POST', endpoint: true, highlight: true },
+      { n:5, title:'Compute Expected',     desc:'expectedCash = openingCash + cashSales − cashReturns',               tag:'SYS',  endpoint: false },
+      { n:6, title:'Flag Difference',      desc:'cashDifference = closingCash − expectedCash (+over / -short)',       tag:'SYS',  endpoint: false },
+      { n:7, title:'Save Shift Report',    desc:'Shift doc: totalSales, orders, returns, discount, per-method totals',tag:'SYS',  endpoint: false },
+      { n:8, title:'Manager Reviews',      desc:'GET /api/v1/shifts — manager sees all shift reports + differences',  tag:'GET',  endpoint: true },
+    ]
+  },
+  qr: {
+    label: '🔲 QR Receipt',
+    steps: [
+      { n:1, title:'Customer Scans QR',    desc:'Scans QR code on printed receipt with any phone camera',             tag:'—',    endpoint: false },
+      { n:2, title:'Hit Receipt URL',      desc:'GET /api/v1/orders/receipt/:qrToken — public, no auth required',     tag:'GET',  endpoint: true, highlight: true },
+      { n:3, title:'Base64 Decode',        desc:'Decode token → orderId + ":" + timestamp + ":" + hmac',              tag:'SYS',  endpoint: false },
+      { n:4, title:'Verify HMAC',          desc:'HMAC-SHA256 recompute — timing-safe compare to prevent timing attacks', tag:'SYS',endpoint: false },
+      { n:5, title:'Check TTL',            desc:'token age = now − timestamp; reject if > 30 days',                   tag:'SYS',  endpoint: false },
+      { n:6, title:'Fetch Order',          desc:'Order.findById(orderId) — populate store + cashier',                 tag:'SYS',  endpoint: false },
+      { n:7, title:'Strip Cost Prices',    desc:'Remove all costPrice fields — public receipt never leaks margins',   tag:'SYS',  endpoint: false, highlight: true },
+      { n:8, title:'Return Receipt',       desc:'{ order, status: "valid" } or { status: "tampered" | "expired" }',  tag:'RES',  endpoint: false },
+    ]
+  }
+};
+
+const proFeatures = [
+  { icon:'🧠', title:'AI Demand Prediction',  glow:'rgba(160,128,240,.08)', tagColor:'var(--purple)', tag:'AI / ML',
+    desc:'Analyze 90-day sales velocity per product to predict stockout dates. "You will run out of Rice 1kg in 3 days based on current sell rate."' },
+  { icon:'📦', title:'Auto Restock Suggestions', glow:'rgba(74,158,255,.08)', tagColor:'var(--blue)', tag:'Inventory AI',
+    desc:'Based on sales history and lead time from supplier, automatically suggest reorder qty and timing for each product.' },
+  { icon:'💬', title:'WhatsApp Integration',  glow:'rgba(96,192,112,.08)', tagColor:'var(--green)', tag:'Messaging',
+    desc:'Send digital receipts to customers via WhatsApp Business API automatically after checkout. No printer needed.' },
+  { icon:'🎯', title:'Advanced Loyalty Engine', glow:'rgba(212,168,67,.08)', tagColor:'var(--gold)', tag:'CRM',
+    desc:'Tier-based loyalty: Silver / Gold / Platinum. Different earn/redeem rates per tier. Birthday bonus points. Expiry rules.' },
+  { icon:'🧾', title:'GST / VAT Engine',      glow:'rgba(62,207,170,.08)', tagColor:'var(--teal)', tag:'Tax',
+    desc:'Configurable BD/IN tax rules. HSN code per product. Tax-inclusive or exclusive pricing. Itemised tax breakdown on receipts and reports.' },
+  { icon:'📡', title:'Multi-Branch Management', glow:'rgba(240,96,128,.08)', tagColor:'var(--rose)', tag:'Enterprise',
+    desc:'Manage multiple store branches from one admin panel. Consolidated P&L. Cross-branch stock transfers. Branch comparison reports.' },
+  { icon:'💳', title:'Card Payment Integration', glow:'rgba(160,128,240,.08)', tagColor:'var(--purple)', tag:'Payments',
+    desc:'Integrate with bKash, Nagad, Rocket (BD), or Stripe/PayPal for direct card/mobile payment with auto-reconciliation.' },
+  { icon:'📊', title:'Excel / PDF Export',    glow:'rgba(74,158,255,.08)', tagColor:'var(--blue)', tag:'Export',
+    desc:'Export any report (daily sales, P&L, payroll, stock audit) directly to Excel or PDF from the dashboard.' },
+  { icon:'🔔', title:'Low-Stock Alerts',      glow:'rgba(212,168,67,.08)', tagColor:'var(--gold)', tag:'Alerts',
+    desc:'Push notifications + in-app alerts when products hit their low-stock threshold. Email daily low-stock digest to manager.' },
+];
+
+// ════════════════════════════════════════════════════════
+// RENDER FUNCTIONS
+// ════════════════════════════════════════════════════════
+
+const cats = ['All', 'Core', 'Settings', 'Inventory', 'HR', 'Reports'];
+let activeFilter = 'All';
+let selectedModule = null;
+
+const catColors = {
+  Core: 'var(--blue)', Settings: 'var(--gold)', Inventory: 'var(--teal)',
+  HR: 'var(--rose)', Reports: 'var(--purple)'
+};
+
+function renderModuleFilter() {
+  document.getElementById('modules-filter').innerHTML = cats.map(c => `
+    <button class="filter-btn ${c === activeFilter ? 'active' : ''}"
+      onclick="setFilter('${c}')">${c === 'All' ? 'All Modules' : c}
+      ${c !== 'All' ? `<span style="margin-left:4px;opacity:.6">${modules.filter(m=>m.cat===c).length}</span>` : ''}
+    </button>
+  `).join('');
+}
+
+function setFilter(cat) {
+  activeFilter = cat;
+  selectedModule = null;
+  document.getElementById('module-detail').classList.remove('show');
+  renderModuleFilter();
+  renderModulesGrid();
+}
+
+function renderModulesGrid() {
+  const filtered = activeFilter === 'All' ? modules : modules.filter(m => m.cat === activeFilter);
+  document.getElementById('modules-grid').innerHTML = filtered.map((m, i) => {
+    const realIdx = modules.indexOf(m);
+    return `
+      <div class="module-card ${selectedModule === realIdx ? 'selected' : ''}"
+           style="--accent:${catColors[m.cat]||'var(--gold)'}"
+           onclick="selectModule(${realIdx})">
+        <div class="module-icon">${m.icon}</div>
+        <div class="module-name">${m.name}</div>
+        <div class="module-meta">
+          <span class="module-cat">${m.cat}</span>
+          <span class="status-dot ${m.status === 'done' ? 'dot-done' : 'dot-new'}"
+                title="${m.status === 'done' ? 'Phase 1' : 'New in v2'}"></span>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function selectModule(idx) {
+  selectedModule = idx;
+  renderModulesGrid();
+  const m = modules[idx];
+  const detail = document.getElementById('module-detail');
+  detail.innerHTML = `
+    <div class="detail-header">
+      <div class="detail-icon">${m.icon}</div>
+      <div>
+        <div class="detail-name">${m.name}</div>
+        <div style="display:flex;gap:8px;margin-top:6px;align-items:center">
+          <span class="badge" style="background:rgba(212,168,67,.12);color:var(--gold);border:1px solid rgba(212,168,67,.25)">${m.cat}</span>
+          <span class="badge" style="${m.status==='done'?'background:rgba(62,207,170,.1);color:var(--teal);border:1px solid rgba(62,207,170,.2)':'background:rgba(74,158,255,.1);color:var(--blue);border:1px solid rgba(74,158,255,.2)'}">${m.status==='done'?'✓ Phase 1':'★ New in v2'}</span>
+        </div>
+      </div>
+    </div>
+    <div class="detail-body">
+      <div class="detail-features">
+        <div style="font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px">Features</div>
+        ${m.features.map(f => `<div class="feature-row">${f}</div>`).join('')}
+      </div>
+      <div>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px">Logic / Endpoints</div>
+        <div class="code-block">${m.code}</div>
+      </div>
+    </div>
+  `;
+  detail.classList.add('show');
+  detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function renderFlowSelector() {
+  const sel = document.getElementById('flow-selector');
+  let active = 'checkout';
+  sel.innerHTML = Object.entries(flows).map(([k, v]) =>
+    `<button class="flow-btn ${k === active ? 'active' : ''}" onclick="selectFlow('${k}', this)">${v.label}</button>`
+  ).join('');
+  renderFlowTable('checkout');
+}
+
+function selectFlow(key, btn) {
+  document.querySelectorAll('.flow-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderFlowTable(key);
+}
+
+const methodClass = { GET:'pill-get', POST:'pill-post', PUT:'pill-put', DELETE:'pill-delete', SYS:'pill-sys', SOCKET:'pill-socket', LOCAL:'pill-sys', RES:'pill-get', IPC:'pill-socket', '—':'pill-sys' };
+
+function renderFlowTable(key) {
+  const flow = flows[key];
+  document.getElementById('flow-table').innerHTML = `
+    <div class="flow-steps">
+      ${flow.steps.map(s => `
+        <div class="flow-step">
+          <div class="step-num-col">
+            <div class="step-num ${s.endpoint ? 'api-step' : ''} ${s.highlight ? 'highlight' : ''}">${s.n}</div>
+          </div>
+          <div class="step-body">
+            <div class="step-title">
+              ${s.title}
+              <span class="method-pill ${methodClass[s.tag]||'pill-sys'}">${s.tag}</span>
+            </div>
+            <div class="step-desc">${s.desc}</div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function renderProFeatures() {
+  document.getElementById('pro-grid').innerHTML = proFeatures.map(f => `
+    <div class="pro-card" style="--glow:${f.glow}">
+      <div class="pro-icon">${f.icon}</div>
+      <div class="pro-title">${f.title}</div>
+      <div class="pro-desc">${f.desc}</div>
+      <span class="tag" style="font-size:10px;padding:3px 9px;border-radius:20px;background:${f.glow};color:${f.tagColor};border:1px solid ${f.tagColor.replace('var(','rgba(').replace(')','')+',0.3)'}">${f.tag}</span>
+    </div>
+  `).join('');
+}
+
+// ════════════════════════════════════════════════════════
+// TAB SWITCHING
+// ════════════════════════════════════════════════════════
+function showTab(id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelector(`[onclick="showTab('${id}')"]`).classList.add('active');
+  document.getElementById('tab-' + id).classList.add('active');
+}
+
+// ════════════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════════════
+renderModuleFilter();
+renderModulesGrid();
+renderFlowSelector();
+renderProFeatures();
+</script>
+</body>
+</html>

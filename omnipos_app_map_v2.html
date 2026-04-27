@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OmniPOS App Map v2</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f4f0;color:#1a1a18}
+.hdr{padding:1.5rem 2rem 0;display:flex;align-items:baseline;gap:12px}
+.logo{font-size:22px;font-weight:600}.logo span{color:#185FA5}
+.badge{font-size:11px;background:#185FA5;color:#fff;padding:2px 10px;border-radius:20px}
+.sub{font-size:12px;color:#73726c;margin-top:3px;padding:0 2rem}
+.tabs{display:flex;gap:2px;padding:1rem 2rem 0;border-bottom:.5px solid #d3d1c7;overflow-x:auto}
+.tab{font-size:13px;padding:6px 14px 11px;cursor:pointer;color:#73726c;border-bottom:2px solid transparent;background:none;border-top:none;border-left:none;border-right:none;white-space:nowrap}
+.tab.active{color:#1a1a18;border-bottom-color:#185FA5;font-weight:500}
+.pnl{display:none;padding:1.5rem 2rem 2.5rem}.pnl.active{display:block}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.stat{background:#fff;border:.5px solid #d3d1c7;border-radius:8px;padding:12px 16px;flex:1;min-width:100px}
+.sn{font-size:26px;font-weight:600;color:#185FA5}.sl{font-size:11px;color:#73726c;margin-top:1px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:10px}
+.card{background:#fff;border:.5px solid #d3d1c7;border-radius:10px;padding:14px}
+.ch{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.7px;margin-bottom:8px}
+.ci{font-size:12px;color:#5f5e5a;padding:3px 0;border-bottom:.5px solid #f1efe8}.ci:last-child{border:none}
+.c1{color:#185FA5}.c2{color:#085041}.c3{color:#633806}.c4{color:#27500A}
+.mg{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:8px}
+.mc{background:#fff;border:.5px solid #d3d1c7;border-radius:10px;padding:12px}
+.mi{font-size:18px;margin-bottom:5px}.mn{font-size:12px;font-weight:600;margin-bottom:3px}
+.ms{font-size:11px;padding:2px 6px;border-radius:4px;display:inline-block}
+.sd{background:#EAF3DE;color:#27500A}.sn2{background:#e6f1fb;color:#185FA5}
+.ep{margin-bottom:18px}
+.ept{font-size:13px;font-weight:600;margin-bottom:7px;display:flex;align-items:center;gap:8px}
+.epc{font-size:11px;background:#e6f1fb;color:#185FA5;padding:1px 7px;border-radius:10px}
+.tbl{width:100%;border-collapse:collapse;font-size:12px}
+.tbl th{background:#1a1a18;color:#fff;padding:6px 10px;text-align:left;font-weight:500}
+.tbl td{padding:6px 10px;border-bottom:.5px solid #e8e6e0}
+.tbl tr:nth-child(even) td{background:#fafaf8}
+.m{display:inline-block;padding:1px 6px;border-radius:3px;font-weight:600;font-size:11px;min-width:42px;text-align:center}
+.GET{background:#E1F5EE;color:#085041}.POST{background:#E6F1FB;color:#0C447C}
+.PUT{background:#FAEEDA;color:#633806}.DELETE{background:#FCEBEB;color:#A32D2D}
+.rt{font-size:10px;padding:1px 5px;border-radius:3px;border:.5px solid}
+.ra{background:#f5f4f0;color:#5f5e5a;border-color:#d3d1c7}
+.rm{background:#FAEEDA;color:#633806;border-color:#FAC775}
+.rA{background:#FCEBEB;color:#A32D2D;border-color:#f5c6c6}
+.sg{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.sc{background:#fff;border:.5px solid #d3d1c7;border-radius:10px;padding:13px}
+.st{font-size:13px;font-weight:600;margin-bottom:8px}
+.sf{font-size:11px;color:#5f5e5a;padding:2px 0;border-bottom:.5px solid #f1efe8;font-family:monospace}
+.sf:last-child{border:none}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div class="logo">Omni<span>POS</span></div>
+  <span class="badge">v2 — Full Build</span>
+</div>
+<div class="sub">20 Models · 23 Route Groups · 80+ API Endpoints · All modules from screenshot included</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="show('ov')">Overview</button>
+  <button class="tab" onclick="show('mo')">Modules (31)</button>
+  <button class="tab" onclick="show('ep')">API Endpoints</button>
+  <button class="tab" onclick="show('sc')">DB Schemas</button>
+  <button class="tab" onclick="show('ar')">Architecture</button>
+</div>
+
+<div class="pnl active" id="tab-ov">
+  <div class="stats">
+    <div class="stat"><div class="sn">20</div><div class="sl">MongoDB Models</div></div>
+    <div class="stat"><div class="sn">23</div><div class="sl">Route Groups</div></div>
+    <div class="stat"><div class="sn">80+</div><div class="sl">API Endpoints</div></div>
+    <div class="stat"><div class="sn">31</div><div class="sl">Feature Modules</div></div>
+    <div class="stat"><div class="sn">3</div><div class="sl">User Roles</div></div>
+    <div class="stat"><div class="sn">2</div><div class="sl">Atomic Services</div></div>
+  </div>
+  <div class="g4">
+    <div class="card"><div class="ch c1">⚙️ General Settings</div>
+      <div class="ci">✅ Company Info</div><div class="ci">✅ Categories</div>
+      <div class="ci">✅ Products + Barcode</div><div class="ci">✅ User Registration</div>
+      <div class="ci">✅ Salesman</div><div class="ci">✅ Wallet</div>
+      <div class="ci">✅ Loyalty Card</div><div class="ci">✅ Banking</div>
+    </div>
+    <div class="card"><div class="ch c2">📦 Inventory</div>
+      <div class="ci">✅ Supplier</div><div class="ci">✅ Purchase</div>
+      <div class="ci">✅ Purchase Return</div><div class="ci">✅ Quotation</div>
+      <div class="ci">✅ Sales Return</div><div class="ci">✅ Stock Adjustment</div>
+      <div class="ci">✅ Stock Transfer</div><div class="ci">✅ Barcode Printing</div>
+    </div>
+    <div class="card"><div class="ch c3">👥 HR</div>
+      <div class="ci">✅ Credit Customer</div><div class="ci">✅ Customer Payment</div>
+      <div class="ci">✅ Expense Types</div><div class="ci">✅ Expenses</div>
+      <div class="ci">✅ Vouchers</div><div class="ci">✅ Payroll</div>
+    </div>
+    <div class="card"><div class="ch c4">📊 Reports</div>
+      <div class="ci">✅ POS Records</div><div class="ci">✅ Shift Closing</div>
+      <div class="ci">✅ Accounting Reports</div><div class="ci">✅ P&amp;L Statement</div>
+      <div class="ci">✅ Payables Ledger</div><div class="ci">✅ Receivables</div>
+      <div class="ci">✅ Cash Flow</div><div class="ci">✅ Stock Logs</div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:10px">
+    <div class="ch c1" style="margin-bottom:10px">🔄 Atomic Transaction Flows</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;font-size:12px;color:#5f5e5a;line-height:1.8">
+      <div><strong style="color:#1a1a18">Checkout</strong><br>Save Order → Deduct Stock × N → Write StockLog × N → Emit socket → Generate QR</div>
+      <div><strong style="color:#1a1a18">Purchase</strong><br>Increment Stock × N → Write StockLog × N → Save Purchase → Update Supplier balance</div>
+      <div><strong style="color:#1a1a18">Stock Transfer</strong><br>Deduct source → Save Transfer → Destination confirms → Increment dest stock</div>
+    </div>
+  </div>
+</div>
+
+<div class="pnl" id="tab-mo"><div class="mg" id="mg"></div></div>
+<div class="pnl" id="tab-ep"><div id="epc"></div></div>
+<div class="pnl" id="tab-sc"><div class="sg" id="sg"></div></div>
+
+<div class="pnl" id="tab-ar">
+  <div class="g4">
+    <div class="card"><div class="ch c1">Frontend</div>
+      <div class="ci">React + Electron (Desktop)</div>
+      <div class="ci">React Native / Expo (Mobile)</div>
+      <div class="ci">Web QR Receipt Viewer</div>
+    </div>
+    <div class="card"><div class="ch c2">Backend</div>
+      <div class="ci">Node.js + Express</div>
+      <div class="ci">JWT access (8h) + refresh (30d)</div>
+      <div class="ci">Socket.io real-time events</div>
+      <div class="ci">Joi validation on all inputs</div>
+      <div class="ci">Rate limiting on auth</div>
+    </div>
+    <div class="card"><div class="ch c3">Database</div>
+      <div class="ci">MongoDB Atlas (cloud)</div>
+      <div class="ci">20 collections</div>
+      <div class="ci">Mongoose transactions</div>
+      <div class="ci">Text search indexes</div>
+      <div class="ci">SQLite offline (Electron)</div>
+    </div>
+    <div class="card"><div class="ch c4">Services</div>
+      <div class="ci">stockService — only stock mutator</div>
+      <div class="ci">qrService — HMAC-SHA256</div>
+      <div class="ci">Socket events per store room</div>
+      <div class="ci">PM2 + VPS deploy</div>
+      <div class="ci">Expo APK build</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const mods=[
+  {i:'🛒',n:'POS Engine',c:'Core',s:'done'},{i:'🧾',n:'Billing Engine',c:'Core',s:'done'},
+  {i:'🔲',n:'QR Receipt',c:'Core',s:'done'},{i:'👥',n:'User & Roles',c:'Core',s:'done'},
+  {i:'🖨️',n:'Print Engine',c:'Core',s:'done'},{i:'🔄',n:'Sync Engine',c:'Core',s:'done'},
+  {i:'🏪',n:'Company Info',c:'Settings',s:'done'},{i:'🗂️',n:'Categories',c:'Settings',s:'new'},
+  {i:'📦',n:'Products',c:'Settings',s:'done'},{i:'🔖',n:'Barcodes',c:'Settings',s:'new'},
+  {i:'🧑‍💼',n:'Salesman',c:'Settings',s:'new'},{i:'💰',n:'Wallet',c:'Settings',s:'new'},
+  {i:'🎯',n:'Loyalty Card',c:'Settings',s:'new'},{i:'🏦',n:'Banking',c:'Settings',s:'new'},
+  {i:'🚚',n:'Supplier',c:'Inventory',s:'new'},{i:'🛍️',n:'Purchase',c:'Inventory',s:'new'},
+  {i:'↩️',n:'Purchase Return',c:'Inventory',s:'new'},{i:'📋',n:'Quotation',c:'Inventory',s:'new'},
+  {i:'🔙',n:'Sales Return',c:'Inventory',s:'new'},{i:'📊',n:'Stock Adjust',c:'Inventory',s:'done'},
+  {i:'🔀',n:'Stock Transfer',c:'Inventory',s:'new'},{i:'💳',n:'Credit Customer',c:'HR',s:'new'},
+  {i:'💵',n:'Customer Pay',c:'HR',s:'new'},{i:'💸',n:'Expenses',c:'HR',s:'new'},
+  {i:'🎟️',n:'Vouchers',c:'HR',s:'new'},{i:'💼',n:'Payroll',c:'HR',s:'new'},
+  {i:'📈',n:'POS Reports',c:'Reports',s:'done'},{i:'🕐',n:'Shift Closing',c:'Reports',s:'new'},
+  {i:'📒',n:'Accounting',c:'Reports',s:'new'},{i:'📜',n:'Stock Logs',c:'Reports',s:'done'},
+  {i:'💹',n:'P&L / Cashflow',c:'Reports',s:'new'},
+];
+
+const eps=[
+  {g:'Auth',rs:[{m:'POST',p:'/api/v1/auth/login',d:'Login → JWT + refresh token',r:'a'},{m:'POST',p:'/api/v1/auth/refresh',d:'Refresh access token',r:'a'},{m:'GET',p:'/api/v1/auth/me',d:'Current user profile',r:'a'}]},
+  {g:'Products',rs:[{m:'GET',p:'/products',d:'List (paginated + text search)',r:'a'},{m:'GET',p:'/products/barcode/:code',d:'Scan lookup — ultra-fast POS',r:'a'},{m:'POST',p:'/products',d:'Create product',r:'m'},{m:'PUT',p:'/products/:id',d:'Update product',r:'m'},{m:'DELETE',p:'/products/:id',d:'Soft delete',r:'A'}]},
+  {g:'Orders',rs:[{m:'POST',p:'/orders',d:'Checkout — atomic stock + QR',r:'a'},{m:'GET',p:'/orders',d:'List orders',r:'m'},{m:'PUT',p:'/orders/:id/void',d:'Void + restore stock atomically',r:'m'},{m:'GET',p:'/orders/receipt/:qr',d:'Public QR receipt viewer',r:'a'}]},
+  {g:'Categories',rs:[{m:'GET',p:'/categories',d:'List categories',r:'a'},{m:'POST',p:'/categories',d:'Create',r:'m'},{m:'PUT',p:'/categories/:id',d:'Update',r:'m'},{m:'DELETE',p:'/categories/:id',d:'Remove',r:'A'}]},
+  {g:'Suppliers',rs:[{m:'GET',p:'/suppliers',d:'List with search',r:'m'},{m:'POST',p:'/suppliers',d:'Create with opening balance',r:'m'},{m:'PUT',p:'/suppliers/:id',d:'Update',r:'m'}]},
+  {g:'Customers',rs:[{m:'GET',p:'/customers',d:'Search by name/phone/card',r:'a'},{m:'POST',p:'/customers',d:'Register customer',r:'a'},{m:'POST',p:'/customers/:id/wallet/topup',d:'Wallet top-up',r:'m'},{m:'POST',p:'/customers/:id/credit/payment',d:'Record credit repayment',r:'m'},{m:'GET',p:'/customers/:id/loyalty-history',d:'Points history',r:'a'}]},
+  {g:'Purchases',rs:[{m:'GET',p:'/purchases',d:'List purchases',r:'m'},{m:'POST',p:'/purchases',d:'Create — atomic stock increment',r:'m'},{m:'PUT',p:'/purchases/:id/payment',d:'Record supplier payment',r:'m'}]},
+  {g:'Purchase Returns',rs:[{m:'GET',p:'/purchase-returns',d:'List',r:'m'},{m:'POST',p:'/purchase-returns',d:'Create — deducts stock',r:'m'}]},
+  {g:'Sales Returns',rs:[{m:'GET',p:'/sales-returns',d:'List',r:'m'},{m:'POST',p:'/sales-returns',d:'Create — restore stock, refund wallet/points',r:'a'}]},
+  {g:'Quotations',rs:[{m:'GET',p:'/quotations',d:'List quotations',r:'a'},{m:'POST',p:'/quotations',d:'Create quotation',r:'a'},{m:'POST',p:'/quotations/:id/convert',d:'Convert to order',r:'a'}]},
+  {g:'Stock Transfers',rs:[{m:'GET',p:'/stock-transfers',d:'List (both directions)',r:'m'},{m:'POST',p:'/stock-transfers',d:'Initiate transfer',r:'m'},{m:'PUT',p:'/stock-transfers/:id/receive',d:'Receive — add dest stock',r:'m'}]},
+  {g:'Shifts',rs:[{m:'GET',p:'/shifts/active',d:'Active shift for cashier',r:'a'},{m:'POST',p:'/shifts/open',d:'Open shift with cash',r:'a'},{m:'POST',p:'/shifts/close',d:'Close + cash reconciliation',r:'a'},{m:'GET',p:'/shifts',d:'Shift history',r:'m'}]},
+  {g:'Expenses',rs:[{m:'GET',p:'/expenses/types',d:'Expense types',r:'a'},{m:'POST',p:'/expenses/types',d:'Create type',r:'m'},{m:'GET',p:'/expenses',d:'List expenses',r:'m'},{m:'POST',p:'/expenses',d:'Record expense',r:'m'}]},
+  {g:'Vouchers',rs:[{m:'GET',p:'/vouchers',d:'List vouchers',r:'m'},{m:'GET',p:'/vouchers/validate/:code',d:'Validate at POS',r:'a'},{m:'POST',p:'/vouchers',d:'Create voucher',r:'m'}]},
+  {g:'Payroll',rs:[{m:'GET',p:'/payroll',d:'List payroll records',r:'m'},{m:'POST',p:'/payroll',d:'Create payroll entry',r:'m'},{m:'PUT',p:'/payroll/:id/pay',d:'Mark as paid',r:'A'}]},
+  {g:'Banking',rs:[{m:'GET',p:'/banking/accounts',d:'List accounts + balances',r:'m'},{m:'POST',p:'/banking/accounts/:id/deposit',d:'Record deposit',r:'m'},{m:'POST',p:'/banking/accounts/:id/withdraw',d:'Withdrawal',r:'m'},{m:'POST',p:'/banking/transfer',d:'Account-to-account transfer',r:'m'}]},
+  {g:'Loyalty',rs:[{m:'GET',p:'/loyalty/settings',d:'Program config',r:'a'},{m:'PUT',p:'/loyalty/settings',d:'Update settings',r:'A'},{m:'POST',p:'/loyalty/redeem',d:'Redeem points for discount',r:'a'}]},
+  {g:'Accounting',rs:[{m:'GET',p:'/accounting/profit-loss',d:'P&L statement',r:'m'},{m:'GET',p:'/accounting/balance-sheet',d:'Balance sheet',r:'A'},{m:'GET',p:'/accounting/cash-flow',d:'Cash flow summary',r:'m'},{m:'GET',p:'/accounting/payables',d:'Supplier payables',r:'m'},{m:'GET',p:'/accounting/receivables',d:'Customer receivables',r:'m'}]},
+  {g:'Inventory',rs:[{m:'GET',p:'/inventory/stock',d:'All stock levels',r:'a'},{m:'GET',p:'/inventory/low-stock',d:'Below threshold products',r:'m'},{m:'GET',p:'/inventory/logs',d:'Full audit trail',r:'m'},{m:'POST',p:'/inventory/adjust',d:'Manual adjustment',r:'m'}]},
+  {g:'Reports',rs:[{m:'GET',p:'/reports/daily',d:'Daily summary',r:'m'},{m:'GET',p:'/reports/range',d:'Date range',r:'m'},{m:'GET',p:'/reports/top-products',d:'Top sellers',r:'m'},{m:'GET',p:'/reports/cashier-performance',d:'Per-cashier stats',r:'A'}]},
+  {g:'Salesman',rs:[{m:'GET',p:'/salesman',d:'List salesman',r:'m'},{m:'POST',p:'/salesman',d:'Add salesman',r:'A'},{m:'GET',p:'/salesman/:id/performance',d:'Sales + commission report',r:'m'}]},
+  {g:'Barcodes',rs:[{m:'GET',p:'/barcodes/generate/:id',d:'Barcode data for product',r:'a'},{m:'POST',p:'/barcodes/bulk',d:'Bulk sheet generation',r:'m'}]},
+];
+
+const schemas=[
+  {n:'Store',i:'🏪',f:['name','address','phone','taxRate','taxLabel','currency','receiptFooter']},
+  {n:'User',i:'👤',f:['name','email','password (hashed)','role: admin|manager|cashier','storeId','lastLogin']},
+  {n:'Product',i:'📦',f:['barcode (unique/store)','name','category','unit','sellingPrice','costPrice','stock','lowStockAlert']},
+  {n:'Category',i:'🗂️',f:['name','storeId','isActive']},
+  {n:'Order',i:'🧾',f:['orderNumber (auto)','cashierId','items[]','subtotal','discount','tax','total','payment[]','qrToken','status']},
+  {n:'StockLog',i:'📋',f:['productId','delta','reason','changedBy','orderId','note']},
+  {n:'Supplier',i:'🚚',f:['name','company','phone','openingBalance','currentBalance']},
+  {n:'Customer',i:'👤',f:['name','phone','creditLimit','creditBalance','walletBalance','loyaltyPoints','loyaltyCard']},
+  {n:'Purchase',i:'🛍️',f:['purchaseNumber','supplierId','items[]','total','amountPaid','balanceDue','paymentStatus']},
+  {n:'PurchaseReturn',i:'↩️',f:['returnNumber','purchaseId','supplierId','items[]','totalAmount','reason']},
+  {n:'SalesReturn',i:'🔙',f:['returnNumber','orderId','customerId','items[]','totalAmount','refundMethod']},
+  {n:'Quotation',i:'📋',f:['quoteNumber','customerId','items[]','total','validUntil','status','convertedToOrderId']},
+  {n:'StockTransfer',i:'🔀',f:['fromStoreId','toStoreId','items[]','status: pending|in_transit|received']},
+  {n:'Shift',i:'🕐',f:['cashierId','openedAt','closedAt','openingCash','closingCash','cashDifference','totalSales']},
+  {n:'Expense',i:'💸',f:['expenseTypeId','amount','description','date','paymentMethod']},
+  {n:'Voucher',i:'🎟️',f:['code (unique)','type: percent|flat','value','minOrderValue','usageLimit','validUntil']},
+  {n:'Payroll',i:'💼',f:['userId','month','year','basicSalary','bonus','deductions','netSalary','status']},
+  {n:'BankAccount',i:'🏦',f:['bankName','accountNumber','openingBalance','currentBalance']},
+  {n:'LoyaltySettings',i:'🎯',f:['pointsPerCurrency','pointsValue','minRedeemPoints','isActive']},
+  {n:'Salesman',i:'🧑‍💼',f:['name','phone','commissionRate','totalSales','totalCommission']},
+];
+
+document.getElementById('mg').innerHTML=mods.map(m=>`<div class="mc"><div class="mi">${m.i}</div><div class="mn">${m.n}</div><span class="ms ${m.s==='done'?'sd':'sn2'}">${m.s==='done'?'Phase 1':'New'}</span> <span style="font-size:10px;color:#888780">${m.c}</span></div>`).join('');
+
+document.getElementById('epc').innerHTML=eps.map(g=>`<div class="ep"><div class="ept">${g.g} <span class="epc">${g.rs.length}</span></div><table class="tbl"><tr><th>Method</th><th>Path</th><th>Description</th><th>Role</th></tr>${g.rs.map(r=>`<tr><td><span class="m ${r.m}">${r.m}</span></td><td style="font-family:monospace;font-size:11px">${r.p}</td><td>${r.d}</td><td><span class="rt ${r.r==='a'?'ra':r.r==='A'?'rA':'rm'}">${r.r==='a'?'all':r.r==='A'?'admin':'manager'}</span></td></tr>`).join('')}</table></div>`).join('');
+
+document.getElementById('sg').innerHTML=schemas.map(s=>`<div class="sc"><div class="st">${s.i} ${s.n}</div>${s.f.map(f=>`<div class="sf">${f}</div>`).join('')}</div>`).join('');
+
+function show(id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.pnl').forEach(p=>p.classList.remove('active'));
+  document.querySelector(`[onclick="show('${id}')"]`).classList.add('active');
+  document.getElementById('tab-'+id).classList.add('active');
+}
+</script>
+</body>
+</html>
