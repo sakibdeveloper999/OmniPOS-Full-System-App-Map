@@ -830,10 +830,11 @@ body {
       <div class="kpi"><div class="kpi-n">82</div><div class="kpi-l">API Endpoints</div></div>
       <div class="kpi"><div class="kpi-n">31</div><div class="kpi-l">Feature Modules</div></div>
       <div class="kpi"><div class="kpi-n">3</div><div class="kpi-l">User Roles</div></div>
-      <div class="kpi"><div class="kpi-n">4</div><div class="kpi-l">Platforms</div></div>
+      <div class="kpi"><div class="kpi-n">2</div><div class="kpi-l">Platforms</div></div>
+      <div class="kpi"><div class="kpi-n">170+</div><div class="kpi-l">Currencies</div></div>
     </div>
   </div>
-  <div class="header-tagline">MERN Stack · Electron Desktop · React Native Mobile · Socket.io · MongoDB Transactions</div>
+  <div class="header-tagline">MERN Stack · Electron Desktop · Arabic/RTL · 170+ Currencies · Socket.io · MongoDB Transactions</div>
 </div>
 
 <!-- ═══════════ TABS ═══════════ -->
@@ -851,19 +852,19 @@ body {
 ════════════════════════════════════════════ -->
 <div class="panel active" id="tab-arch">
   <div class="sec-head">System Architecture</div>
-  <div class="sec-sub">Three-layer MERN stack with Electron desktop app, React Native mobile, and a web-based QR receipt viewer. All communication goes through the REST API with Socket.io for real-time events.</div>
+  <div class="sec-sub">Three-layer MERN stack with Electron desktop app and a web-based QR receipt viewer. All communication goes through the REST API with Socket.io for real-time events. Full Arabic (RTL) interface and 170+ world currencies supported.</div>
 
   <div class="arch-layer" style="border-top:3px solid #1B3A6B;">
     <div class="arch-layer-top">
       <div>
         <div class="arch-layer-name">① Frontend Layer</div>
-        <div style="font-size:11px;color:var(--ink3);margin-top:4px">4 platforms — all communicate via REST API + Socket.io</div>
+        <div style="font-size:11px;color:var(--ink3);margin-top:4px">2 platforms (Desktop + Web) — REST API + Socket.io + Arabic RTL + Multi-Currency</div>
       </div>
-      <div class="arch-layer-desc">User-facing interfaces. Desktop runs via Electron (offline-first with SQLite). Mobile via Expo APK. Web receipt viewer is publicly accessible with no auth.</div>
+      <div class="arch-layer-desc">User-facing interfaces. Desktop runs via Electron (offline-first with SQLite). Web receipt viewer is publicly accessible with no auth. Full Arabic RTL layout and multi-currency display on all screens.</div>
     </div>
     <div class="arch-chips">
       <span class="chip c-navy">⚡ React + Electron — Desktop POS (.exe)</span>
-      <span class="chip c-navy">📱 React Native + Expo — Mobile APK</span>
+
       <span class="chip c-navy">🌐 Web — QR Receipt Viewer (public)</span>
       <span class="chip c-navy">📊 Web — Admin Dashboard</span>
     </div>
@@ -909,7 +910,7 @@ body {
         <div class="arch-layer-name">③ Data Layer — MongoDB Atlas</div>
         <div style="font-size:11px;color:var(--ink3);margin-top:4px">20 collections · Replica set required for transactions · Text search indexes · SQLite offline fallback</div>
       </div>
-      <div class="arch-layer-desc">Cloud-hosted on MongoDB Atlas. Replica set enables multi-document transactions. Offline-first: desktop caches to SQLite, mobile to AsyncStorage, syncs on reconnect.</div>
+      <div class="arch-layer-desc">Cloud-hosted on MongoDB Atlas. Replica set enables multi-document transactions. Offline-first: desktop caches to SQLite, syncs on reconnect. 170+ ISO 4217 currencies stored per store.</div>
     </div>
     <div class="arch-chips">
       <span class="chip c-amber">🍃 MongoDB Atlas (cloud cluster)</span>
@@ -918,7 +919,7 @@ body {
       <span class="chip c-amber">🔍 Text Search Indexes (products)</span>
       <span class="chip c-amber">📑 Compound Indexes (barcode+store)</span>
       <span class="chip c-amber">💾 SQLite — Desktop Offline</span>
-      <span class="chip c-amber">📦 AsyncStorage — Mobile Offline</span>
+
     </div>
     <table class="tech-table">
       <thead><tr><th>Collection</th><th>Key Fields</th><th>Special Indexes</th></tr></thead>
@@ -1008,7 +1009,7 @@ body {
 ════════════════════════════════════════════ -->
 <div class="panel" id="tab-deploy">
   <div class="sec-head">Deployment &amp; Infrastructure</div>
-  <div class="sec-sub">Four separate deployment targets — backend API, database, desktop app, and mobile app. All can be deployed independently.</div>
+  <div class="sec-sub">Three deployment targets — backend API, database, and desktop app. All can be deployed independently.</div>
 
   <div class="deploy-targets" id="deploy-targets"></div>
 
@@ -1043,7 +1044,7 @@ body {
     </div>
   </div>
 
-  <div class="sec-divider">8-Week Project Timeline</div>
+  <div class="sec-divider">13-Week Project Timeline (Apr 17 – Jul 20, 2026)</div>
   <div class="timeline" id="timeline"></div>
 </div>
 
@@ -1159,7 +1160,7 @@ await window.ipcRenderer.invoke(
 
   { icon:'🔄', name:'Real-Time Sync',    cat:'Core',     status:'done', eps:0,
     desc:'Socket.io events keep all connected devices in sync. Admin dashboard updates live. Stock levels refresh without page reload. Multi-device cashier support.',
-    features:['Socket.io rooms scoped per storeId','Admin dashboard receives live order events','Stock levels update on all devices after any sale','Multi-device cashier support with shared cart data','Offline-first: desktop queues to SQLite when offline','Mobile queues to AsyncStorage when offline','Auto-sync queue on network reconnection','Conflict resolution: last-write-wins for stock','6 distinct event types (see Architecture tab)'],
+    features:['Socket.io rooms scoped per storeId','Admin dashboard receives live order events','Stock levels update on all devices after any sale','Multi-device cashier support with shared cart data','Offline-first: desktop queues to SQLite when offline','Auto-sync queue on network reconnection','Conflict resolution: last-write-wins for stock','6 distinct event types (see Architecture tab)'],
     endpoints:[
       { m:'WS', p:'socket.emit("join:store", storeId)', d:'Subscribe to store-scoped events', r:'all' },
     ],
@@ -1193,6 +1194,118 @@ socket.on('order:new', (data) => {
   timezone: 'Asia/Dhaka',
   receiptFooter: '...',
   logo: 'https://...' }` },
+
+  { icon:'🌐', name:'Arabic Language', cat:'Core', status:'new',
+    features:[
+      'Full RTL (Right-to-Left) layout — CSS direction:rtl + dir="rtl" on root element',
+      'i18next / react-i18next for all UI string translations (Arabic ↔ English)',
+      'Translations cover: POS screen, all menus, reports, receipts, modals, error messages',
+      'Eastern Arabic numerals: ٠ ١ ٢ ٣ ٤ ٥ ٦ ٧ ٨ ٩ (toggleable per store preference)',
+      'Arabic date formatting — Gregorian dates displayed in Arabic locale',
+      'Arabic thermal receipt template (right-aligned, RTL text flow)',
+      'Language toggle in Settings — instant switch, no page reload required',
+      'All form inputs accept Arabic text natively',
+      'Arabic product names, category names, supplier names supported throughout',
+      'Receipt QR web viewer also served in Arabic when store language is set to AR'
+    ],
+    schema: {
+      name:'Store — Locale Fields',
+      fields:[
+        {k:'language',        v:'"en" | "ar"  (default: "en")'},
+        {k:'numeralStyle',    v:'"western" | "arabic-indic"'},
+        {k:'textDirection',   v:'"ltr" | "rtl"  (auto-set by language)'},
+        {k:'receiptLanguage', v:'"en" | "ar" | "both"'},
+      ]
+    },
+    endpoints:[
+      {m:'GET', p:'/api/v1/settings/language',  r:'all',     d:'Get current store language preference'},
+      {m:'PUT', p:'/api/v1/settings/language',  r:'admin',   d:'Set language: "ar" or "en"'},
+    ],
+    code:`// i18next initialisation
+i18n.init({
+  lng: store.language,    // 'ar' or 'en'
+  resources: {
+    ar: { translation: {
+      pos:      'نقطة البيع',
+      total:    'المجموع',
+      checkout: 'الدفع',
+      product:  'المنتج',
+      qty:      'الكمية',
+      discount: 'الخصم',
+      tax:      'الضريبة',
+      receipt:  'الإيصال',
+      inventory:'المخزون',
+      reports:  'التقارير',
+    }}
+  }
+})
+
+// Arabic numeral conversion helper
+const toArabicNum = n =>
+  n.toString().replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[d])
+
+// RTL layout toggle
+document.documentElement.dir = store.language === 'ar' ? 'rtl' : 'ltr'`
+  },
+
+  { icon:'💱', name:'Multi-Currency', cat:'Core', status:'new',
+    features:[
+      '170+ world currencies with ISO 4217 codes, symbols, and locale formatting',
+      'Store-level currency selection: one store = one base currency',
+      'Currency stored with every Order document for historical accuracy',
+      'Correct symbol on all POS outputs, receipts, reports, and accounting screens',
+      'Symbol position per currency: before ($100) or after (100 ﷼)',
+      'Decimal places per currency: 0 for JPY ¥, 2 for most, 3 for KWD د.ك',
+      'Number format per locale: 1,234.56 (en) or ١٢٣٤٫٥٦ (ar)',
+      'Key currencies: SAR ﷼, BDT ৳, USD $, EUR €, GBP £, AED د.إ, EGP £, INR ₹, JPY ¥, CNY ¥, KWD د.ك, QAR ﷼, OMR ﷼, TRY ₺, PKR ₨, MYR RM, IDR Rp, NGN ₦, ZAR R, BRL R$',
+      'Currency selector dropdown in Store Settings (Admin only)',
+    ],
+    schema: {
+      name:'Store — Currency Fields',
+      fields:[
+        {k:'currency',       v:'"SAR" | "BDT" | "USD" | "EUR" | ... (ISO 4217)'},
+        {k:'currencySymbol', v:'"﷼" | "৳" | "$" | "€" | "£" ...'},
+        {k:'currencyName',   v:'"Saudi Riyal" | "US Dollar" ...'},
+        {k:'decimalPlaces',  v:'Number — 0 (JPY), 2 (most), 3 (KWD)'},
+        {k:'symbolPosition', v:'"before" | "after"'},
+        {k:'thousandSep',    v:'"," | "." per locale'},
+        {k:'decimalSep',     v:'"." | "," per locale'},
+      ]
+    },
+    endpoints:[
+      {m:'GET', p:'/api/v1/settings/currencies',  r:'all',   d:'List all 170+ supported currencies with symbols'},
+      {m:'GET', p:'/api/v1/settings/currency',    r:'all',   d:'Get current store currency config'},
+      {m:'PUT', p:'/api/v1/settings/currency',    r:'admin', d:'Set store currency (ISO code)'},
+    ],
+    code:`// 170+ currency definitions (excerpt)
+const CURRENCIES = {
+  SAR: { symbol:'﷼',   pos:'after',  dec:2, name:'Saudi Riyal' },
+  BDT: { symbol:'৳',   pos:'before', dec:2, name:'Bangladeshi Taka' },
+  USD: { symbol:'$',   pos:'before', dec:2, name:'US Dollar' },
+  EUR: { symbol:'€',   pos:'before', dec:2, name:'Euro' },
+  GBP: { symbol:'£',   pos:'before', dec:2, name:'British Pound' },
+  AED: { symbol:'د.إ', pos:'after',  dec:2, name:'UAE Dirham' },
+  KWD: { symbol:'د.ك', pos:'after',  dec:3, name:'Kuwaiti Dinar' },
+  QAR: { symbol:'﷼',   pos:'after',  dec:2, name:'Qatari Riyal' },
+  INR: { symbol:'₹',   pos:'before', dec:2, name:'Indian Rupee' },
+  JPY: { symbol:'¥',   pos:'before', dec:0, name:'Japanese Yen' },
+  TRY: { symbol:'₺',   pos:'before', dec:2, name:'Turkish Lira' },
+  // ... 160+ more
+}
+
+// Format price with correct symbol + decimals
+const formatPrice = (amount, currency) => {
+  const c = CURRENCIES[currency]
+  const n = amount.toFixed(c.dec)
+  return c.pos === 'before'
+    ? \`\${c.symbol}\${n}\`
+    : \`\${n} \${c.symbol}\`
+}
+// SAR:  "123.50 ﷼"
+// USD:  "$123.50"
+// KWD:  "123.500 د.ك"
+// JPY:  "¥1234"`
+  },
 
   { icon:'🗂️', name:'Categories',        cat:'Settings', status:'new', eps:4,
     desc:'Product categories for filtering, search, and reporting. Each category is unique per store. Deleting is soft — products retain their category label.',
@@ -2038,42 +2151,37 @@ const deployTargets = [
     'Auto-updater via electron-updater',
     'Supports 58mm and 80mm thermal printers',
   ]},
-  { icon:'📱', name:'Mobile App', sub:'React Native + Expo', items:[
-    'Expo EAS Build → Android APK',
-    'AsyncStorage for offline data cache',
-    'React Native Camera for QR scanning',
-    'Socket.io-client for live updates',
-    'Inventory view + order history',
-    'iOS build available via Expo',
-    'OTA updates via Expo Updates',
-  ]},
+  
 ];
 
 const timeline = [
-  { wk:'W1–2', dt:' April 10–17', done:true, phase:'Phase 1', task:'Backend Foundation',
-    desc:'Node.js + Express setup, all 20 MongoDB schemas, JWT auth system, RBAC (3 roles), rate limiting, Joi validation, all 23 route groups wired up, seed script with demo data.',
-    chips:['Node.js', 'Express', 'MongoDB', 'JWT', 'Socket.io'] },
-  { wk:'W2–3', dt:'April 17–24', done:true, phase:'Phase 2', task:'POS Engine + Desktop Shell',
-    desc:'Electron + React POS screen, always-focused scan input, cart management (Zustand), live billing calculations, unknown barcode popup, hold order system.',
-    chips:['Electron', 'React', 'Zustand', 'ESC/POS'] },
-  { wk:'W3–4', dt:'April 28–May 5', done:false, phase:'Phase 3', task:'Billing + QR Receipt + Print',
-    desc:'Split payment modal, voucher application, HMAC-signed QR generation, web receipt viewer, tamper detection page, Electron IPC silent thermal printing.',
-    chips:['QR Code', 'HMAC', 'Thermal Print', 'Web Receipt'] },
-  { wk:'W4–5', dt:'May 5– Jun 2', done:false, phase:'Phase 4', task:'Inventory + Purchase System',
-    desc:'Supplier CRUD, Purchase with atomic stock (transaction), Purchase Return, Sales Return with wallet/points refund, Stock Transfer two-phase flow.',
-    chips:['Transactions', 'Stock Transfer', 'Purchase Return'] },
-  { wk:'W5–6', dt:'Jun 2–11', done:false, phase:'Phase 5', task:'HR + Customer Modules',
-    desc:'Credit customer system, wallet top-up, loyalty card + points engine, salesman commission tracking, payroll processing, expense management, voucher system.',
-    chips:['Loyalty', 'Payroll', 'Credit', 'Wallet', 'Expenses'] },
-  { wk:'W6–7', dt:'Jun 9–18', done:false, phase:'Phase 6', task:'Reports + Accounting Dashboard',
-    desc:'POS daily/range/hourly reports, shift close reconciliation, P&L statement, balance sheet, cash flow, payables/receivables, banking ledger, export PDF/Excel.',
-    chips:['Aggregation', 'P&L', 'Cash Flow', 'Banking'] },
-  { wk:'W7–8', dt:'Jun 16–25', done:false, phase:'Phase 7', task:'Mobile App + Real-Time',
-    desc:'React Native Expo app with inventory view and order history, AsyncStorage offline, QR scanner, Socket.io live dashboard sync, low-stock push alerts.',
-    chips:['React Native', 'Expo', 'Socket.io', 'AsyncStorage'] },
-  { wk:'W8', dt:'Jun 23–30', done:false, phase:'Phase 8', task:'QA + Deploy + Handover',
-    desc:'Full QA pass across all modules, Electron .exe build and installer, APK build via Expo EAS, VPS deployment with Nginx + PM2, MongoDB Atlas setup, handover docs.',
-    chips:['QA', '.exe Build', 'APK', 'VPS', 'Documentation'] },
+  { wk:'W1–2', dt:'Apr 17–30, 2026', done:true, phase:'Phase 1', task:'Backend Foundation',
+    desc:'Node.js + Express setup, all 22 MongoDB schemas, JWT auth (access + refresh), RBAC (3 roles), rate limiting, Joi validation, all 24 route groups, multi-currency config per store, Arabic/English locale setting, seed script with demo data.',
+    chips:['Node.js', 'Express', 'MongoDB', 'JWT', 'RBAC', '22 Schemas'] },
+
+  { wk:'W3–4', dt:'May 1–14, 2026', done:false, phase:'Phase 2', task:'POS Engine + Billing',
+    desc:'Electron + React POS screen, always-focused barcode scan, real-time cart, live billing (subtotal/discount/tax), split payment modal (cash + credit + wallet + mobile banking), hold order, quotation create + convert-to-order, unknown barcode popup.',
+    chips:['Electron', 'React', 'Barcode Scan', 'Quotations', 'Split Pay'] },
+
+  { wk:'W5–6', dt:'May 15–28, 2026', done:false, phase:'Phase 3', task:'QR + Print + Arabic + Multi-Currency',
+    desc:'HMAC-SHA256 signed QR tokens, web receipt viewer, Electron silent thermal printing, barcode label generation. i18next for Arabic/English, full RTL layout, Eastern Arabic numerals (٠١٢٣٤٥٦٧٨٩), Arabic receipt template. 170+ ISO currencies with symbols (﷼ $ € £ ৳ د.إ ₹ ¥), locale number formatting, currency selector in Settings.',
+    chips:['QR HMAC', 'Arabic RTL', 'i18next', '170+ Currencies', 'Silent Print'] },
+
+  { wk:'W7–8', dt:'May 29–Jun 11, 2026', done:false, phase:'Phase 4', task:'Inventory Suite',
+    desc:'Full supplier CRUD with payable balance tracking, Purchase with atomic stock increment and supplier debit, Purchase Return with stock deduction, Sales Return (cash/wallet/loyalty refund), two-phase Stock Transfer between branches. All interfaces in Arabic and English.',
+    chips:['Suppliers', 'Purchases', 'Returns', 'Stock Transfer', 'Atomic Tx'] },
+
+  { wk:'W9–10', dt:'Jun 12–25, 2026', done:false, phase:'Phase 5', task:'HR & Customer Modules',
+    desc:'Credit customer system (limit + balance tracking), wallet top-up and deduction at POS, loyalty points earn/redeem/adjust, salesman commission tracking, monthly payroll with mark-paid, expense management with types, voucher validation at checkout. All forms support Arabic input and RTL layout.',
+    chips:['Credit', 'Wallet', 'Loyalty', 'Payroll', 'Expenses', 'Vouchers'] },
+
+  { wk:'W11–12', dt:'Jun 26–Jul 9, 2026', done:false, phase:'Phase 6', task:'Reports + Accounting + Arabic UI',
+    desc:'POS reports (daily/range/top products/hourly/cashier), shift open/close with cash reconciliation, P&L statement, balance sheet, cash flow, payables/receivables, banking account management. Complete Arabic UI polish across all screens. Multi-currency frontend: symbol display, number formatting per locale, currency selector.',
+    chips:['P&L', 'Shift Close', 'Banking', 'Arabic UI', 'Currency Display'] },
+
+  { wk:'W13', dt:'Jul 10–20, 2026', done:false, phase:'Phase 7', task:'QA + Deployment + Handover',
+    desc:'End-to-end QA in Arabic and English. RTL layout validation on all screens and receipts. Currency symbol QA (SAR ﷼, USD $, EUR €, BDT ৳). API testing with real data, Electron .exe build + code signing, VPS deployment (Nginx + PM2), MongoDB Atlas config. Handover: source code + .env template + Arabic/English setup guide.',
+    chips:['QA Arabic', 'QA English', '.exe Build', 'VPS Deploy', 'Handover Docs'] }
 ];
 
 /* ─────────────────────────────────────────────
@@ -2117,9 +2225,9 @@ const proFeatures = [
     desc:'Low-stock alerts, shift-end reminders, payment-due alerts via push or email.',
     detail:'Socket.io "lowstock:alert" event already implemented. Extension: connect to Firebase Cloud Messaging for mobile push. Email: Nodemailer + daily digest. Alert types: low stock, unpaid supplier invoice, shift not closed, customer credit overdue.' },
   { icon:'📱', title:'Customer Self-Service App', status:'planned', strip:'#1B3A6B',
-    tagClasses:['c-navy'],tags:['React Native','Phase 4'],
-    desc:'Customer-facing mobile app to check loyalty points, order history, and wallet balance.',
-    detail:'Separate React Native app (not the admin mobile app). Customer logs in with phone number OTP. Views: loyalty points + history, wallet balance + top-up, purchase history + receipt QR, available vouchers.' },
+    tagClasses:['c-navy'],tags:['Web App','Phase 4'],
+    desc:'Customer-facing web portal to check loyalty points, order history, and wallet balance.',
+    detail:'Separate web app (React + Node). Customer logs in with phone number OTP. Views: loyalty points + history, wallet balance + top-up, purchase history + receipt QR, available vouchers.' },
   { icon:'🎁', title:'Gift Card System', status:'planned', strip:'#15803D',
     tagClasses:['c-green'],tags:['Gift Cards','Phase 3'],
     desc:'Issue reloadable gift cards. Customers can purchase and redeem at POS.',
